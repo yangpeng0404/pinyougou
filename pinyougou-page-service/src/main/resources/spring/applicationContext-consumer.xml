@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean class="org.apache.rocketmq.client.consumer.DefaultMQPushConsumer" id="defaultMQPushConsumer" init-method="start" destroy-method="shutdown">
+        <property name="namesrvAddr" value="127.0.0.1:9876"></property>
+        <!--消费模式 默认还是集群模式，此处可以不配置-->
+        <!--消费者是消费具体的消息 配置要具体，但是生产者不并不是只给某个消费者-->
+        <!--page也是去执行goods 任务，但是是要有的所有pageserver都要执行 ，就是广播模式-->
+        <property name="messageModel" value="BROADCASTING"></property>
+        <property name="subscription">
+            <map>
+                <!--订阅springTopic主题，消费所有的Tag-->
+                <entry key="Goods_Topic" value="*"></entry>
+            </map>
+        </property>
+        <!--消费者组-->
+        <property name="consumerGroup" value="consumer_page_group"></property>
+        <!--设置消费者监听器-->
+
+        <property name="messageListener" ref="messageListener"></property>
+    </bean>
+    <bean class="com.pinyougou.listener.PageMessageListener" id="messageListener"></bean>
+
+</beans>
