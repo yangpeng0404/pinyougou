@@ -52,7 +52,16 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="itheima-cas-client-demo1" target="1.8" />
+      <module name="itheima-cas-client-demo2" target="1.8" />
+      <module name="itheima-cas-security-demo3" target="1.8" />
+      <module name="itheima-elasticsearch-demo" target="1.8" />
+      <module name="itheima-freemarker-demo" target="1.8" />
+      <module name="itheima-rokectmq-consumer" target="1.8" />
+      <module name="itheima-rokectmq-producer" target="1.8" />
+      <module name="itheima-sms-demo" target="1.8" />
       <module name="itheima_MBG" target="1.8" />
+      <module name="security-demo" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

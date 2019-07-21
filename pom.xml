@@ -16,23 +16,18 @@
         <module>pinyougou-sellergoods-service</module>
         <module>pinyougou-manager-web</module>
         <module>pinyougou-core-service</module>
-        <module>security-demo</module>
         <module>pinyougou-shop-web</module>
         <module>pinyougou-upload-web</module>
         <module>pinyougou-content-interface</module>
         <module>pinyougou-content-service</module>
         <module>pinyougou-portal-web</module>
-        <module>itheima-elasticsearch-demo</module>
         <module>pinyougou-es-import</module>
         <module>pinyougou-search-interface</module>
         <module>pinyougou-search-service</module>
         <module>pinyougou-search-web</module>
-        <module>itheima-freemarker-demo</module>
         <module>pinyougou-page-interface</module>
         <module>pinyougou-page-service</module>
         <module>pinyougou-page-web</module>
-        <module>itheima-rokectmq-producer</module>
-        <module>itheima-rokectmq-consumer</module>
         <module>pinyougou-user-interface</module>
         <module>pinyougou-user-service</module>
         <module>pinyougou-user-web</module>
