@@ -6,15 +6,6 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="itheima-cas-client-demo1" />
-        <module name="itheima-cas-client-demo2" />
-        <module name="itheima-cas-security-demo3" />
-        <module name="itheima-elasticsearch-demo" />
-        <module name="itheima-freemarker-demo" />
-        <module name="itheima-rokectmq-consumer" />
-        <module name="itheima-rokectmq-producer" />
-        <module name="itheima-sms-demo" />
-        <module name="itheima-sms-service" />
         <module name="pinyougou-cart-interface" />
         <module name="pinyougou-cart-service" />
         <module name="pinyougou-common" />
@@ -48,20 +39,7 @@
         <module name="pinyougou-user-service" />
         <module name="pinyougou-user-web" />
         <module name="pinyouogu-cart-web" />
-        <module name="security-demo" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="itheima-cas-client-demo1" target="1.8" />
-      <module name="itheima-cas-client-demo2" target="1.8" />
-      <module name="itheima-cas-security-demo3" target="1.8" />
-      <module name="itheima-elasticsearch-demo" target="1.8" />
-      <module name="itheima-freemarker-demo" target="1.8" />
-      <module name="itheima-rokectmq-consumer" target="1.8" />
-      <module name="itheima-rokectmq-producer" target="1.8" />
-      <module name="itheima-sms-demo" target="1.8" />
-      <module name="itheima_MBG" target="1.8" />
-      <module name="security-demo" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>
