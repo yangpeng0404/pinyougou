@@ -8,7 +8,9 @@
         ids:[],
         keywords:'',
         searchEntity:{},
-        contentList:[]
+        itemCat1List:[],//一级分类的列表 变量
+        itemCat2List:[],//二级分类的列表 变量
+        contentMap:{contentList:[],contentList2:[]}
     },
     methods: {
         searchList:function (curPage) {
@@ -96,27 +98,51 @@
         },
         findByCategoryId:function (categoryId) {
             axios.get('/content/findByCategoryId/'+categoryId+'.shtml').then(function (response) {
-                alert(response)
-                app.contentList=response.data;
+                app.contentMap.contentList=response.data;
             }).catch(function (error) {
                 console.log("1231312131321");
             });
+        },
+        findByCategoryId2:function (categoryId) {
+            axios.get('/content/findByCategoryId/'+categoryId+'.shtml').then(function (response) {
+                app.contentMap.contentList2=response.data;
+            }).catch(function (error) {
+                console.log("1231312131321");
+            });
+        },
+        //获取一级分类的类别的方法
+        findItemCat1List:function () {
+            axios.get('/itemCat/findParentId/0.shtml').then(
+                function (response) {
+                    //获取列表数据
+                    app.itemCat1List=response.data;
+                }
+            )
         },
         doSearch:function () {
             window.location.href="http://localhost:9104/search.html?keywords="+encodeURIComponent(this.keywords);
         }
 
-
+    },
+    watch: {
+        //监听变量：entity.goods.category1Id 的变化  触发 一个函数 发送请求 获取 一级分类的下的二级分类的列表
+        'entity.goods.category1Id': function (newval, oldval) {
+            if (newval != undefined) {
+                axios.get('/itemCat/findParentId/' + newval + '.shtml').then(
+                    function (response) {
+                        //获取列表数据
+                        app.itemCat2List = response.data;
+                    }
+                )
+            }
+        }
     },
     //钩子函数 初始化了事件和
     created: function () {
-      
-        //this.searchList(1);
 
-
-        this.findByCategoryId(2);
-
-
+        this.findItemCat1List();
+        this.findByCategoryId(1);
+        this.findByCategoryId2(3);
     }
 
 })

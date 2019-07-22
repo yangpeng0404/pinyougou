@@ -522,10 +522,10 @@
 					<!--banner轮播-->
 					<div id="myCarousel" data-ride="carousel" data-interval="4000" class="sui-carousel slide">
 						<ol class="carousel-indicators">
-							<li data-target="#myCarousel" data-slide-to="0" v-for="(content,index) in contentList" :class="{'active':index==0?true:false}"></li>
+							<li data-target="#myCarousel" data-slide-to="0" v-for="(content,index) in contentMap.contentList" :class="{'active':index==0?true:false}"></li>
 						</ol>
 						<div class="carousel-inner">
-							<div v-for="(content,index) in contentList" :class="{'active':index==0?true:false,'item':true}" >
+							<div v-for="(content,index) in contentMap.contentList" :class="{'active':index==0?true:false,'item':true}" >
 								<a :href="content.url">
 									<img :src="content.pic"  />
 								</a>
@@ -864,7 +864,7 @@
 					</ul>
 				</div>
 			</div>
-			<div class="clearfix  tab-content floor-content">
+			<div class="clearfix tab-content floor-content">
 				<div id="tab1" class="tab-pane active">
 					<div class="yui3-g Floor-1">
 						<div class="yui3-u Left blockgary">
@@ -881,65 +881,41 @@
 						<div class="yui3-u row-330 floorBanner">
 							<div id="floorCarousel" data-ride="carousel" data-interval="4000" class="sui-carousel slide">
 								<ol class="carousel-indicators">
-									<li data-target="#floorCarousel" data-slide-to="0" class="active"></li>
-									<li data-target="#floorCarousel" data-slide-to="1"></li>
-									<li data-target="#floorCarousel" data-slide-to="2"></li>
+									<li data-target="#floorCarousel" data-slide-to="0" v-for="(content,index) in contentMap.contentList2" :class="{'active':index==0?true:false}"></li>
 								</ol>
 								<div class="carousel-inner">
-									<div class="active item">
-										<img src="img/floor-1-b01.png">
-									</div>
-									<div class="item">
-										<img src="img/floor-1-b02.png">
-									</div>
-									<div class="item">
-										<img src="img/floor-1-b03.png">
+									<div v-for="(content,index) in contentMap.contentList2" :class="{'active':index==0?true:false,'item':true}">
+                                        <a :href="content.url">
+                                            <img :src="content.pic"/>
+                                        </a>
 									</div>
 								</div>
 								<a href="#floorCarousel" data-slide="prev" class="carousel-control left">‹</a>
 								<a href="#floorCarousel" data-slide="next" class="carousel-control right">›</a>
 							</div>
 						</div>
-						<div class="yui3-u row-220 split">
+						<div class="yui3-u row-220 split" v-for="content in contentMap.contentList2">
 							<span class="floor-x-line"></span>
 							<div class="floor-conver-pit">
-								<img src="img/floor-1-2.png" />
+								<img :src="content.pic"/>
 							</div>
 							<div class="floor-conver-pit">
-								<img src="img/floor-1-3.png" />
+								<img :src="content.pic"/>
 							</div>
 						</div>
-						<div class="yui3-u row-218 split">
-							<img src="img/floor-1-4.png" />
+						<div class="yui3-u row-218 split" v-for="content in contentMap.contentList2">
+							<img :src="content.pic"/>
 						</div>
-						<div class="yui3-u row-220 split">
+						<div class="yui3-u row-220 split" v-for="content in contentMap.contentList2">
 							<span class="floor-x-line"></span>
 							<div class="floor-conver-pit">
-								<img src="img/floor-1-5.png" />
+								<img :src="content.pic"/>
 							</div>
 							<div class="floor-conver-pit">
-								<img src="img/floor-1-6.png" />
+								<img :src="content.pic"/>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div id="tab2" class="tab-pane">
-					<p>第二个</p>
-				</div>
-				<div id="tab3" class="tab-pane">
-					<p>第三个</p>
-				</div>
-				<div id="tab4" class="tab-pane">
-					<p>第4个</p>
-				</div>
-				<div id="tab5" class="tab-pane">
-					<p>第5个</p>
-				</div>
-				<div id="tab6" class="tab-pane">
-					<p>第6个</p>
-				</div>
-				<div id="tab7" class="tab-pane">
-					<p>第7个</p>
 				</div>
 			</div>
 		</div>
@@ -990,69 +966,42 @@
 						</div>
 						<div class="yui3-u row-330 floorBanner">
 							<div id="floorCarousell" data-ride="carousel" data-interval="4000" class="sui-carousel slide">
-								<ol class="carousel-indicators">
-									<li data-target="#floorCarousell" data-slide-to="0" class="active"></li>
-									<li data-target="#floorCarousell" data-slide-to="1"></li>
-									<li data-target="#floorCarousell" data-slide-to="2"></li>
-								</ol>
-								<div class="carousel-inner">
-									<div class="active item">
-										<img src="img/floor-1-b01.png">
-									</div>
-									<div class="item">
-										<img src="img/floor-1-b02.png">
-									</div>
-									<div class="item">
-										<img src="img/floor-1-b03.png">
-									</div>
-								</div>
+                                <ol class="carousel-indicators">
+                                    <li data-target="#floorCarousel" data-slide-to="0" v-for="(content,index) in contentMap.contentList2" :class="{'active':index==0?true:false}"></li>
+                                </ol>
+                                <div class="carousel-inner">
+                                    <div v-for="(content,index) in contentMap.contentList2" :class="{'active':index==0?true:false,'item':true}">
+                                        <a :href="content.url">
+                                            <img :src="content.pic"/>
+                                        </a>
+                                    </div>
+                                </div>
 								<a href="#floorCarousell" data-slide="prev" class="carousel-control left">‹</a>
 								<a href="#floorCarousell" data-slide="next" class="carousel-control right">›</a>
 							</div>
 						</div>
-						<div class="yui3-u row-220 split">
-							<span class="floor-x-line"></span>
-							<div class="floor-conver-pit">
-								<img src="img/floor-1-2.png" />
-							</div>
-							<div class="floor-conver-pit">
-								<img src="img/floor-1-3.png" />
-							</div>
-						</div>
-						<div class="yui3-u row-218 split">
-							<img src="img/floor-1-4.png" />
-						</div>
-						<div class="yui3-u row-220 split">
-							<span class="floor-x-line"></span>
-							<div class="floor-conver-pit">
-								<img src="img/floor-1-5.png" />
-							</div>
-							<div class="floor-conver-pit">
-								<img src="img/floor-1-6.png" />
-							</div>
-						</div>
+                        <div class="yui3-u row-220 split" v-for="content in contentMap.contentList2">
+                            <span class="floor-x-line"></span>
+                            <div class="floor-conver-pit">
+                                <img :src="content.pic"/>
+                            </div>
+                            <div class="floor-conver-pit">
+                                <img :src="content.pic"/>
+                            </div>
+                        </div>
+                        <div class="yui3-u row-218 split" v-for="content in contentMap.contentList2">
+                            <img :src="content.pic"/>
+                        </div>
+                        <div class="yui3-u row-220 split" v-for="content in contentMap.contentList2">
+                            <span class="floor-x-line"></span>
+                            <div class="floor-conver-pit">
+                                <img :src="content.pic"/>
+                            </div>
+                            <div class="floor-conver-pit">
+                                <img :src="content.pic"/>
+                            </div>
+                        </div>
 					</div>
-				</div>
-				<div id="tab2" class="tab-pane">
-					<p>第二个</p>
-				</div>
-				<div id="tab9" class="tab-pane">
-					<p>第三个</p>
-				</div>
-				<div id="tab10" class="tab-pane">
-					<p>第4个</p>
-				</div>
-				<div id="tab11" class="tab-pane">
-					<p>第5个</p>
-				</div>
-				<div id="tab12" class="tab-pane">
-					<p>第6个</p>
-				</div>
-				<div id="tab13" class="tab-pane">
-					<p>第7个</p>
-				</div>
-				<div id="tab14" class="tab-pane">
-					<p>第8个</p>
 				</div>
 			</div>
 		</div>
