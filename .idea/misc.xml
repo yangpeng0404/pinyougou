@@ -2,10 +2,6 @@
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
-    <file type="web" url="file://$PROJECT_DIR$/itheima-cas-client-demo1" />
-    <file type="web" url="file://$PROJECT_DIR$/itheima-cas-client-demo2" />
-    <file type="web" url="file://$PROJECT_DIR$/itheima-cas-security-demo3" />
-    <file type="web" url="file://$PROJECT_DIR$/itheima-sms-service" />
     <file type="web" url="file://$PROJECT_DIR$/pinyougou-cart-service" />
     <file type="web" url="file://$PROJECT_DIR$/pinyougou-content-service" />
     <file type="web" url="file://$PROJECT_DIR$/pinyougou-manager-web" />
@@ -25,27 +21,15 @@
     <file type="web" url="file://$PROJECT_DIR$/pinyougou-user-service" />
     <file type="web" url="file://$PROJECT_DIR$/pinyougou-user-web" />
     <file type="web" url="file://$PROJECT_DIR$/pinyouogu-cart-web" />
-    <file type="web" url="file://$PROJECT_DIR$/security-demo" />
-    <type id="Spring" />
-  </component>
-  <component name="JavaScriptSettings">
-    <option name="languageLevel" value="ES6" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/itheima_MBG/pom.xml" />
-        <option value="$PROJECT_DIR$/security-demo/pom.xml" />
-        <option value="$PROJECT_DIR$/itheima-sms-demo/pom.xml" />
-        <option value="$PROJECT_DIR$/itheima-sms-service/pom.xml" />
-        <option value="$PROJECT_DIR$/itheima-cas-client-demo1/pom.xml" />
-        <option value="$PROJECT_DIR$/itheima-cas-client-demo2/pom.xml" />
-        <option value="$PROJECT_DIR$/itheima-cas-security-demo3/pom.xml" />
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>
