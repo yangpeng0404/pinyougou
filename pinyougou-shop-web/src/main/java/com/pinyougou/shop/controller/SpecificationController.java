@@ -49,5 +49,12 @@ public class SpecificationController {
 	}
 
 
+	@RequestMapping("/search")
+	public PageInfo<TbSpecification> findPage(@RequestParam(value = "pageNo", defaultValue = "1", required = true) Integer pageNo,
+											  @RequestParam(value = "pageSize", defaultValue = "10", required = true) Integer pageSize,
+											  @RequestBody TbSpecification specification) {
+		return specificationService.findPage(pageNo, pageSize, specification);
+	}
+
 	
 }
