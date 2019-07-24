@@ -4,15 +4,18 @@
         pages:15,
         pageNo:1,
         list:[],
-        entity:{},
+        entity:{optionOrder:[{specName:'',option:''}]},
         ids:[],
         searchEntity:{}
     },
     methods: {
-
+        addRow:function () {
+            //this.list.push({specName:'',option:''});
+            this.entity.optionOrder.push({specName:'',option:''});
+        },
         //该方法只要不在生命周期的
         add:function () {
-            axios.post('/brand/add.shtml',this.entity).then(function (response) {
+            axios.post('/specification/add.shtml',this.entity).then(function (response) {
                 console.log(response);
                     alert(response.data.message)
 

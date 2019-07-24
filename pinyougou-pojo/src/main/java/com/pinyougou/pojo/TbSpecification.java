@@ -21,11 +21,37 @@ public class TbSpecification implements Serializable {
     @Column(name = "status")
     private String status;
 
+    @Override
+    public String toString() {
+        return "TbSpecification{" +
+                "id=" + id +
+                ", status='" + status + '\'' +
+                ", optionOrder='" + optionOrder + '\'' +
+                ", sellerId='" + sellerId + '\'' +
+                ", specName='" + specName + '\'' +
+                '}';
+    }
+
+    public String getOptionOrder() {
+        return optionOrder;
+    }
+
+    public void setOptionOrder(String optionOrder) {
+        this.optionOrder = optionOrder;
+    }
+
+    /**
+     * 选项与排序数组{option:'',oder:''}
+     */
+    @Column(name = "option_order")
+    private String optionOrder;
+
     /**
      * 申请商家名称
      */
     @Column(name = "seller_id")
     private String sellerId;
+
 
     public String getStatus() {
         return status;
@@ -41,16 +67,6 @@ public class TbSpecification implements Serializable {
 
     public void setSellerId(String sellerId) {
         this.sellerId = sellerId;
-    }
-
-    @Override
-    public String toString() {
-        return "TbSpecification{" +
-                "id=" + id +
-                ", status='" + status + '\'' +
-                ", sellerId='" + sellerId + '\'' +
-                ", specName='" + specName + '\'' +
-                '}';
     }
 
     /**

@@ -32,6 +32,7 @@
         {{entity}}
 
 
+
 	<div class="box-header with-border">
 		<h3 class="box-title">规格申请</h3>
 	</div>
@@ -51,30 +52,16 @@
                             <!--表单内容-->
                             <div class="tab-pane active" id="home">
                                 <div class="row data-type">
-								   <div class="col-md-2 title">规格名称</div>
-
+                                    <div v-for="en in entity">
+								   <div class="col-md-2 title" >规格名称</div>
 									<div class="col-md-10 data">
-										<input type="text" class="form-control" v-model="entity.specName"    placeholder="商品名称" value="">
+										<input type="text" class="form-control" v-model="en.specName"    placeholder="商品名称" value="">
 									</div>
+                                        <div class="col-md-2 title" >选项</div>
+                                        <div class="col-md-10 data">
+                                            <input type="text" class="form-control" v-model="en.option"    placeholder="商品名称" value="">
+                                        </div>
 
-                                    <div v-for="optionOrder in this.entity.optionOrder">
-
-                                    <div class="col-md-2 title">选项</div>
-
-                                    <div class="col-md-10 data">
-                                        <input type="text" class="form-control" v-model="optionOrder.specName"    placeholder="商品名称" value="">
-                                    </div>
-
-                                    <div class="col-md-2 title">排序(数字)</div>
-
-                                    <div class="col-md-10 data">
-                                        <input type="text" class="form-control" v-model="optionOrder.option"    placeholder="商品名称" value="">
-                                    </div>
-
-                                    </div>
-
-                                    <div class="btn-toolbar list-toolbar">
-                                        <button class="btn btn-primary" @click="addRow()"><i class="fa fa-save"></i>添加选项</button>
                                     </div>
                                 </div>
                             </div>
@@ -98,7 +85,7 @@
 
 
                   <div class="btn-toolbar list-toolbar">
-				      <button class="btn btn-primary" @click="add()"><i class="fa fa-save"></i>保存</button>
+				      <button class="btn btn-primary" @click="addRow()"><i class="fa fa-save"></i>添加行</button>
 				  </div>
 
             </section>
@@ -133,5 +120,5 @@
 <script src="../plugins/vue/vue.js"></script>
 <script src="../js/controller/base.js"></script>
 <script src="../plugins/axios/axios.js"></script>
-<script src="../js/controller/specification.js"></script>
+<script src="../js/controller/test.js"></script>
 </html>
