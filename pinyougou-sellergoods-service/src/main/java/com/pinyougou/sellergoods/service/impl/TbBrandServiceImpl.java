@@ -7,6 +7,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pinyougou.mapper.TbBrandMapper;
 import com.pinyougou.pojo.TbBrand;
+import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.sellergoods.service.TbBrandService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,7 @@ public class TbBrandServiceImpl implements TbBrandService {
         Example.Criteria criteria = example.createCriteria();
 
         if (tbBrand!=null) {
+            criteria.andEqualTo("status",tbBrand.getStatus());
             if (StringUtils.isNotBlank(tbBrand.getName())) {
                 criteria.andLike("name","%"+tbBrand.getName()+"%");
             }
@@ -92,5 +94,17 @@ public class TbBrandServiceImpl implements TbBrandService {
         //这个拼接相当于 where id in  （ids），不过这个参数类型是集合，所以的转换
         criteria.andIn("id", Arrays.asList(ids));
         tbBrandMapper.deleteByExample(example);
+    }
+
+    @Override
+    public void updateStatus(Long[] ids, String status) {
+        TbBrand tbBrand = new TbBrand();
+        tbBrand.setStatus(status);
+        //条件 创建条件将ids加进去
+        Example example = new Example(TbGoods.class);
+        Example.Criteria criteria = example.createCriteria();
+        //条件就是 goods的id
+        criteria.andIn("id", Arrays.asList(ids));
+        tbBrandMapper.updateByExampleSelective(tbBrand,example);
     }
 }

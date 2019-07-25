@@ -56,4 +56,5 @@ public interface TbBrandService  {
      */
     public  void  delete(Long[] ids);
 
+    void updateStatus(Long[] ids, String status);
 }

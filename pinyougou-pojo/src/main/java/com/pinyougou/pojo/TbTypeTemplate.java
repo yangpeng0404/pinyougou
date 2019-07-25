@@ -17,6 +17,34 @@ public class TbTypeTemplate implements Serializable {
     private String name;
 
     /**
+     * 状态id  0代表正在审核 1 代表通过 2代表驳回
+     */
+    @Column(name = "status")
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(String sellerId) {
+        this.sellerId = sellerId;
+    }
+
+    /**
+     *
+     */
+    @Column(name = "seller_id")
+    private String sellerId;
+
+    /**
      * 关联规格
      */
     @Column(name = "spec_ids")
