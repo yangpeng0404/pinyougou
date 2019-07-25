@@ -84,9 +84,9 @@
         },
         //该方法只要不在生命周期的
         add:function () {
-            axios.post('/brand/add.shtml',this.entity).then(function (response) {
+            axios.post('/typeTemplate/add.shtml',this.entity).then(function (response) {
                 console.log(response);
-                    alert(response.data.message)
+                alert(response.data.message);
 
             }).catch(function (error) {
                 console.log("1231312131321");
