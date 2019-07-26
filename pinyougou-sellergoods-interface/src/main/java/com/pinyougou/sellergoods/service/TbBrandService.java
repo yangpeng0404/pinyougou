@@ -56,5 +56,10 @@ public interface TbBrandService  {
      */
     public  void  delete(Long[] ids);
 
+    /**
+     * 审查更新状态
+     * @param ids
+     * @param status
+     */
     void updateStatus(Long[] ids, String status);
 }

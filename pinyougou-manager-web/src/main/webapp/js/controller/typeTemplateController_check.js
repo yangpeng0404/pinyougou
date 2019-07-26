@@ -15,6 +15,7 @@
         updateStatus:function (status) {
             axios.post('/typeTemplate/updateStatus/'+status+'.shtml',this.ids).then(function (response) {
                 if(response.data.success){
+                    app.ids=[];
                     app.searchList(1);
                 }
             }).catch(function (error) {
@@ -64,6 +65,7 @@
             axios.post('/typeTemplate/add.shtml',this.entity).then(function (response) {
                 console.log(response);
                 if(response.data.success){
+
                     app.searchList(1);
                 }
             }).catch(function (error) {
@@ -74,6 +76,7 @@
             axios.post('/typeTemplate/update.shtml',this.entity).then(function (response) {
                 console.log(response);
                 if(response.data.success){
+
                     app.searchList(1);
                 }
             }).catch(function (error) {

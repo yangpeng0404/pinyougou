@@ -83,7 +83,8 @@ public class TypeTemplateServiceImpl extends CoreServiceImpl<TbTypeTemplate>  im
         Example example = new Example(TbTypeTemplate.class);
         Example.Criteria criteria = example.createCriteria();
 
-        if(typeTemplate!=null){			
+        if(typeTemplate!=null){
+        	criteria.andEqualTo("status","0");
 						if(StringUtils.isNotBlank(typeTemplate.getName())){
 				criteria.andLike("name","%"+typeTemplate.getName()+"%");
 				//criteria.andNameLike("%"+typeTemplate.getName()+"%");

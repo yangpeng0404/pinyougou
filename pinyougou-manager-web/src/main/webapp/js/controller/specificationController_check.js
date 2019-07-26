@@ -4,13 +4,13 @@
         pages:15,
         pageNo:1,
         list:[],
-        entity:{},
+        entity:{specification:{},optionList:[]},
         ids:[],
         searchEntity:{status:'0'}
     },
     methods: {
         updateStatus:function (status) {
-            axios.post('/tbBrand/updateStatus/'+status+'.shtml',this.ids).then(function (response) {
+            axios.post('/specification/updateStatus/'+status+'.shtml',this.ids).then(function (response) {
                 if(response.data.success){
                     app.ids=[];
                     app.searchList(1);
@@ -20,7 +20,7 @@
             });
         },
         searchList:function (curPage) {
-            axios.post('/tbBrand/search.shtml?pageNo='+curPage,this.searchEntity).then(function (response) {
+            axios.post('/specification/search.shtml?pageNo='+curPage,this.searchEntity).then(function (response) {
                 //获取数据
                 app.list=response.data.list;
 
@@ -33,7 +33,7 @@
         //查询所有品牌列表
         findAll:function () {
             console.log(app);
-            axios.get('/brand/findAll.shtml').then(function (response) {
+            axios.get('/specification/findAll.shtml').then(function (response) {
                 console.log(response);
                 //注意：this 在axios中就不再是 vue实例了。
                 app.list=response.data;
@@ -44,7 +44,7 @@
         },
          findPage:function () {
             var that = this;
-            axios.get('/brand/findPage.shtml',{params:{
+            axios.get('/specification/findPage.shtml',{params:{
                 pageNo:this.pageNo
             }}).then(function (response) {
                 console.log(app);
@@ -59,7 +59,7 @@
         },
         //该方法只要不在生命周期的
         add:function () {
-            axios.post('/brand/add.shtml',this.entity).then(function (response) {
+            axios.post('/specification/add.shtml',this.entity).then(function (response) {
                 console.log(response);
                 if(response.data.success){
                     app.searchList(1);
@@ -69,7 +69,7 @@
             });
         },
         update:function () {
-            axios.post('/brand/update.shtml',this.entity).then(function (response) {
+            axios.post('/specification/update.shtml',this.entity).then(function (response) {
                 console.log(response);
                 if(response.data.success){
                     app.searchList(1);
@@ -79,21 +79,23 @@
             });
         },
         save:function () {
-            if(this.entity.id!=null){
+            if(this.entity.specification.id!=null){
                 this.update();
             }else{
                 this.add();
             }
         },
         findOne:function (id) {
-            axios.get('/brand/findOne/'+id+'.shtml').then(function (response) {
+
+            axios.get('/specification/findOne/'+id+'.shtml').then(function (response) {
+                alert(response.data)
                 app.entity=response.data;
             }).catch(function (error) {
                 console.log("1231312131321");
             });
         },
         dele:function () {
-            axios.post('/brand/delete.shtml',this.ids).then(function (response) {
+            axios.post('/specification/delete.shtml',this.ids).then(function (response) {
                 console.log(response);
                 if(response.data.success){
                     app.searchList(1);
@@ -101,6 +103,12 @@
             }).catch(function (error) {
                 console.log("1231312131321");
             });
+        },
+        addTableRow:function () {
+            app.entity.optionList.push({});
+        },
+        removeTableRow:function (index) {
+            app.entity.optionList.splice(index,1);
         }
 
 

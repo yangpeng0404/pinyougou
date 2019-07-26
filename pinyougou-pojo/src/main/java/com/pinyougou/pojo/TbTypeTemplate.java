@@ -39,7 +39,7 @@ public class TbTypeTemplate implements Serializable {
     }
 
     /**
-     *
+     *申请商家
      */
     @Column(name = "seller_id")
     private String sellerId;

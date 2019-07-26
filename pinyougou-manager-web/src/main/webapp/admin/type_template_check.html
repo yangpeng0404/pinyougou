@@ -4,7 +4,7 @@
     <!-- 页面meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>类型模板管理</title>
+    <title>类型模板审核</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
     <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
@@ -27,7 +27,7 @@
   <!-- .box-body -->
                 
                     <div class="box-header with-border">
-                        <h3 class="box-title">商品类型模板管理</h3>
+                        <h3 class="box-title">商品类型模板审核</h3>
                     </div>
 
                     <div class="box-body">
@@ -47,10 +47,7 @@
                                 </div>
                             </div>
                             <div class="box-tools pull-right">
-                                <div class="has-feedback">
-							                  分类模板名称：<input  >									
-									<button class="btn btn-default">查询</button>                                    
-                                </div>
+
                             </div>
                             <!--工具栏/-->
 
@@ -66,6 +63,7 @@
 									      <th class="sorting">关联品牌</th>
 									      <th class="sorting">关联规格</th>									     
 									      <th class="sorting">扩展属性</th>
+									      <th class="sorting">申请商家</th>
 			                          </tr>
 			                      </thead>
 			                      <tbody>
@@ -76,6 +74,7 @@
 										  <td>{{jsonToString(entity.brandIds,'text')}}</td>
 										  <td>{{jsonToString(entity.specIds,'text')}}</td>
 										  <td>{{jsonToString(entity.customAttributeItems,'text')}}</td>
+										  <td>{{entity.sellerId}}</td>
 
 			                          </tr>
 			                      </tbody>
@@ -108,7 +107,7 @@
 		<div class="modal-body">							
 			
 			<table class="table table-bordered table-striped"  width="800px">
-				{{entity}}
+
 		      	<tr>
 		      		<td>商品类型</td>
 		      		<td><input  class="form-control" placeholder="商品类型" v-model="entity.name">  </td>
