@@ -51,4 +51,9 @@ public class SeckillGoodsServiceImpl implements SeckillGoodsService {
 		criteria.andEqualTo(tbGoods.getSellerId());
 		return goodsMapper.selectByExample(example);
 	}
+
+	@Override
+	public void add(TbSeckillGoods seckillGoods) {
+		seckillGoodsMapper.insert(seckillGoods);
+	}
 }

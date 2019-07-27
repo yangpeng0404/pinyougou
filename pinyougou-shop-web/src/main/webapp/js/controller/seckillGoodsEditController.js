@@ -4,6 +4,9 @@
         pages:15,
         pageNo:1,
         list:[],
+        goods:{},
+        items:{},
+        seckillGoods:{},
         entity:{goods:{},items:{},seckillGoods:{}},
         ids:[],
         specList:[],//规格的数据列表 格式：[{id:1,text:"网络",options:[{},{}]}]
@@ -16,8 +19,59 @@
 
     },
     methods: {
+        addSeckillGoods:function () {
+            //获取stock_count库存,判断秒杀数量和库存数量关系,大于则提示,不提交
+            var stockCount = this.items.num;
+            var num = this.seckillGoods.num;
+            if(num == null || num == undefined || num==''){
+                alert("请输入秒杀商品数量");
+                return;
+            }
+            if (stockCount<num) {
+                alert("秒杀商品数量必须小于库存数");
+                return;
+            }else {
+                this.seckillGoods.stockCount = stockCount;
+            }
+            //价格和折扣价格,前者必须大于等于后者,赋值price
+            var price = this.items.price;
+            var costprice= this.seckillGoods.costPrice;
+
+            if(costprice == null || costprice == undefined || costprice==''){
+                alert("请输入秒杀价格");
+                return;
+            }
+            if (price<costprice) {
+                alert("秒杀价格必须小于原价");
+                return;
+            }else {
+                this.seckillGoods.price = price;
+            }
+            //赋值small_pic,从items当中
+            this.seckillGoods.smallPic = this.items.image;
+            //赋值title
+            this.seckillGoods.title = this.items.title;
+            //获取item_id
+            this.seckillGoods.itemId = this.items.id;
+            //获取goods_id
+            this.seckillGoods.goodsId = this.goods.id;
+
+            //获取富文本编辑框值
+            this.seckillGoods.introduction=editor.html();
+
+            axios.post('/seckillGoods/addSeckillGoods.shtml',this.seckillGoods).then(function (response) {
+                if(response.data.success){
+                    alert("添加成功");
+
+                }else {
+                    alert("添加失败")
+                }
+            }).catch(function (error) {
+                console.log("1231312131321");
+            });
 
 
+        },
         searchList:function (curPage) {
             axios.post('/goods/search.shtml?pageNo='+curPage,this.searchEntity).then(function (response) {
                 //获取数据
@@ -304,7 +358,7 @@
     },
     //定义一个监听
     watch:{
-        'entity.goods':function (newval,oldval) {
+        'goods':function (newval,oldval) {
             if(newval!=undefined) {
                 axios.get('/seckillGoods/findItemsByGoodsId/' + newval.id + '.shtml').then(
                     function (response) {
@@ -332,20 +386,21 @@
         // }
     },
 
+    //日历插件值绑定,使用回调函数done
     mounted: function () {
     console.log(laydate)
     laydate.render({
         elem: '#test5',
         type:'datetime',
         done:function (value) {
-            app.start_time = value
+            app.seckillGoods.startTime = value
         }
 });
         laydate.render({
             elem: '#test6',
             type:'datetime',
             done:function (value) {
-                app.end_time = value
+                app.seckillGoods.endTime = value
             }
         })
 }
