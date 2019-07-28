@@ -7,18 +7,23 @@ import javax.persistence.*;
 
 @Table(name = "tb_order")
 public class TbOrder implements Serializable {
+
+
     /**
      * 订单id
+     * long类型的orderId变为String类型,解决传入前端时候,精度丢失问题
      */
     @Id
     @Column(name = "order_id")
-    private Long orderId;
+    private String orderId;
 
     /**
      * 实付金额。精确到2位小数;单位:元。如:200.07，表示:200元7分
      */
     @Column(name = "payment")
     private BigDecimal payment;
+
+
 
     /**
      * 支付类型，1、在线支付，2、货到付款
@@ -165,7 +170,7 @@ public class TbOrder implements Serializable {
      *
      * @return order_id - 订单id
      */
-    public Long getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
@@ -174,7 +179,7 @@ public class TbOrder implements Serializable {
      *
      * @param orderId 订单id
      */
-    public void setOrderId(Long orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 

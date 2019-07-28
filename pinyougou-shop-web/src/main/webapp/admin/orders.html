@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>广告管理</title>
+	<!-- Tell the browser to be responsive to screen width -->
+	<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+	<link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+	<link rel="stylesheet" href="../css/style.css">
+	<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+	<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+
+</head>
+
+<body class="hold-transition skin-red sidebar-mini">
+  <!-- .box-body -->
+                <div id="app">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">订单查询</h3>
+                    </div>
+
+                    <div class="box-body">
+
+                        <!-- 数据表格 -->
+                        <div class="table-box">
+
+							<!-- 数据表格 -->
+							<div class="table-box">
+
+								<!--工具栏-->
+								<div class="pull-left">
+									<div class="form-group form-inline">
+										<div class="btn-group">
+											<button type="button" class="btn btn-default" title="发货" @click="updateStatus(4)" ><i class="fa fa-file-o"></i> 发货</button>
+											<button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>
+											<button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
+										</div>
+									</div>
+								</div>
+								<div class="box-tools pull-right">
+									<div class="has-feedback">
+										状态：<select v-model="searchEntity.status">
+										<option value="">全部</option>
+										<option value="1">未付款</option>
+										<option value="2">已付款</option>
+										<option value="3">未发货</option>
+										<option value="4">已发货</option>
+										<option value="5">交易成功</option>
+										<option value="6">交易关闭</option>
+										<option value="7">待评价</option>
+									</select>
+										买家：<input v-model="searchEntity.userId">
+										<button class="btn btn-default" @click="searchList(1)" >查询</button>
+									</div>
+								</div>
+
+
+                            </div>
+                            <div class="box-tools pull-right">
+                                <div class="has-feedback">
+							                                  
+                                </div>
+                            </div>
+                            <!--工具栏/-->
+							{{ids}}
+							{{list}}
+
+			                  <!--数据列表-->
+			                  <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+			                      <thead>
+			                          <tr>
+			                              <th class="" style="padding-right:0px">
+			                                  <input id="selall" type="checkbox" class="icheckbox_square-blue">
+			                              </th> 
+										  <th class="sorting_asc">订单ID</th>
+									      <th class="sorting">实付金额</th>
+									      <th class="sorting">状态</th>
+									      <th class="sorting">买家ID</th>
+										  <th class="sorting">收货人</th>
+										  <th class="sorting">买家留言</th>
+										  <th class="text-center">操作</th>
+			                          </tr>
+			                      </thead>
+			                      <tbody>
+			                          <tr v-for="order in list">
+			                              <td><input  type="checkbox" v-model="ids" :value="order.orderId"></td>
+				                          <td>{{order.orderId}}</td>
+									      <td>{{order.payment}}</td>
+									      <td>{{status[order.status]}}</td>
+									      <td>{{order.userId}}</td>
+
+									      <td>{{order.receiver}}</td>
+									      <td>{{order.buyerMessage}}</td>
+
+
+		                                  <td class="text-center">                                           
+		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" :data-target="'#editModal'+order.orderId">详情</button>
+		                                  </td>
+			                          </tr>
+			                      </tbody>
+			                  </table>
+			                  <!--数据列表/-->
+
+
+							<!--分页-->
+							<navigation :pages="pages" :current.sync="pageNo"  @navpage="searchList"></navigation>
+
+						</div>
+                        <!-- 数据表格 /-->
+                     </div>
+                    <!-- /.box-body -->
+
+		
+<!-- 详情 -->
+<div v-for="order in list">
+<div class="modal fade" :id="'editModal'+order.orderId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" >
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="myModalLabel">订单详情</h3>
+		</div>
+		<div class="modal-body">							
+			
+			<table class="table table-bordered table-striped"  width="800px">
+
+
+		      	<tr>
+		      		<td>支付类型</td>
+					<td>{{type[order.paymentType]}}</td>
+				</tr>
+
+		      	<tr>
+		      		<td>收货人地址</td>
+					<td>{{order.receiverAreaName}}</td>
+
+				</tr>
+				<tr>
+					<td>收货人手机</td>
+					<td>{{order.receiverMobile}}</td>
+				</tr>
+
+
+			 </table>				
+			
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+		</div>
+	  </div>
+	</div>
+</div>
+</div>
+				</div>
+
+
+
+</body>
+
+<script src="../plugins/vue/vue.js"></script>
+<!--引入自定义的插件-->
+<script src="../js/controller/base.js"></script>
+<script src="../plugins/axios/axios.js"></script>
+<script src="../js/pagination.js"></script>
+<script src="../js/controller/orderController.js"></script>
+
+
+</html>
