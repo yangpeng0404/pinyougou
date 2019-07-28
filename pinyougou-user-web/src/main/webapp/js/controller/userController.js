@@ -8,7 +8,10 @@
         loginName:'',
         ids:[],
         searchEntity:{},
-        smsCode:''
+        smsCode:'',
+        cartList: [],
+        totalMoney:0,//总金额
+        totalNum:0 //总数量
     },
     methods: {
         //获取登录名
@@ -146,14 +149,28 @@
             }).catch(function (error) {
                 console.log("1231312131321");
             });
+        },
+        findCartList: function () {
+            axios.get('/user/findCartList.shtml').then(function (response) {
+                //获取购物车列表数据
+                app.cartList = response.data;
+                app.totalMoney=0;
+                app.totalNum=0;
+                var cartListAll=response.data;
+
+                for(var i=0;i<cartListAll.length;i++){
+                    var cart = cartListAll[i];
+                    for(var j=0;j<cart.orderItemList.length;j++){
+                        app.totalNum+=cart.orderItemList[j].num;
+                        app.totalMoney+=cart.orderItemList[j].totalFee;
+                    }
+                }
+            });
         }
-
-
-
     },
     //钩子函数 初始化了事件和
     created: function () {
-
+        this.findCartList();
         //页面加载获取用户名
         this.getName();
 

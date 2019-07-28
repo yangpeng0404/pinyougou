@@ -8,6 +8,7 @@ import entity.Result;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * controller
@@ -84,6 +85,11 @@ public class ItemCatController {
 	public List<TbItemCat> findParentId(@PathVariable("parentId") Long parentId){
 		return itemCatService.findParentId(parentId);
 	}
+	@RequestMapping("/findtwothree/{parentId}")
+	public List<Map<String,Object>> findtwothree(@PathVariable("parentId") Long parentId){
+		return itemCatService.findtwothree(parentId);
+	}
+
 
 	/**
 	 * 批量删除

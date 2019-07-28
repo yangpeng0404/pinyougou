@@ -89,8 +89,8 @@
 								</li>
 								<li class="yui3-u-1-8"><span class="sum">{{orderItem.totalFee}}</span></li>
 								<li class="yui3-u-1-8">
-									<a href="#none" @click="addGoodsToCartList(orderItem.itemId,-orderItem.num)">删除</a><br />
-									<a href="#none">移到我的关注</a>
+									<a href="#none" @click="addGoodsToCartList(orderItem.itemId,-orderItem.num)">删除</a><br/>
+									<a href="#none" @click="addToMyList(orderItem.itemId,-orderItem.num)">移到我的关注</a>
 								</li>
 							</ul>
 						</div>

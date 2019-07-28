@@ -1,6 +1,10 @@
 package com.pinyougou.sellergoods.service.impl;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired; 
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
@@ -96,8 +100,28 @@ public class ItemCatServiceImpl extends CoreServiceImpl<TbItemCat>  implements I
             //存入redis
             redisTemplate.boundHashOps("itemCat").put(itemCat.getName(), itemCat.getTypeId());
         }
-
         return itemCatMapper.select(tbitemCat);
+    }
+
+    @Override
+    public List<Map<String,Object>> findtwothree(Long parentId) {
+        TbItemCat cat = new TbItemCat();
+        cat.setParentId(parentId);
+        List<Map<String,Object>> list = new ArrayList<>();
+        List<TbItemCat> tbItemCats = itemCatMapper.select(cat);
+        for (TbItemCat tbItemCat : tbItemCats) {
+            Map<String,Object> two = new HashMap<>();
+            two.put("twoCat",tbItemCat);
+            List<TbItemCat> threeList = new ArrayList<>();
+            cat.setParentId(tbItemCat.getId());
+            List<TbItemCat> newthreelist = itemCatMapper.select(cat);
+            for (TbItemCat threeitemCat : newthreelist) {
+                threeList.add(threeitemCat);
+            }
+            two.put("threeCatList",threeList);
+            list.add(two);
+        }
+        return list;
     }
 
 }

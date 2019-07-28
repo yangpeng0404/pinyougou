@@ -13,6 +13,20 @@
         contentMap:{contentList:[],contentList2:[]}
     },
     methods: {
+        enter:function (id) {
+            if(id!=undefined) {
+                axios.get('/itemCat/findtwothree/' + id + '.shtml').then(
+                    function (response) {
+                        //获取列表数据
+                        app.itemCat2List = response.data;
+
+                    }
+                )
+            }
+        },
+        leave:function(){
+            this.itemCat2List=[];
+        },
         searchList:function (curPage) {
             axios.post('/content/search.shtml?pageNo='+curPage,this.searchEntity).then(function (response) {
                 //获取数据
@@ -122,24 +136,9 @@
         doSearch:function () {
             window.location.href="http://localhost:9104/search.html?keywords="+encodeURIComponent(this.keywords);
         }
-
-    },
-    watch: {
-        //监听变量：entity.goods.category1Id 的变化  触发 一个函数 发送请求 获取 一级分类的下的二级分类的列表
-        'entity.goods.category1Id': function (newval, oldval) {
-            if (newval != undefined) {
-                axios.get('/itemCat/findParentId/' + newval + '.shtml').then(
-                    function (response) {
-                        //获取列表数据
-                        app.itemCat2List = response.data;
-                    }
-                )
-            }
-        }
     },
     //钩子函数 初始化了事件和
     created: function () {
-
         this.findItemCat1List();
         this.findByCategoryId(1);
         this.findByCategoryId2(3);

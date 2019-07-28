@@ -1,5 +1,7 @@
 package com.pinyougou.sellergoods.service;
 import java.util.List;
+import java.util.Map;
+
 import com.pinyougou.pojo.TbItemCat;
 
 import com.github.pagehelper.PageInfo;
@@ -35,4 +37,6 @@ public interface ItemCatService extends CoreService<TbItemCat> {
 	 * @return
 	 */
 	List<TbItemCat> findParentId(Long parentId);
+
+	List<Map<String,Object>> findtwothree(Long parentId);
 }
