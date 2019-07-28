@@ -388,7 +388,7 @@
 
     //日历插件值绑定,使用回调函数done
     mounted: function () {
-    console.log(laydate)
+    console.log(laydate);
     laydate.render({
         elem: '#test5',
         type:'datetime',

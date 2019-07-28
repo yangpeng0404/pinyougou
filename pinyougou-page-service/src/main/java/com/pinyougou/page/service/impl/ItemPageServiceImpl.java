@@ -68,6 +68,7 @@ public class ItemPageServiceImpl implements ItemPageService {
         try {
             for (Long aLong : goodsId) {
                 FileUtils.forceDelete(new File(pageDir + aLong + ".html"));
+
             }
         } catch (IOException e) {
             e.printStackTrace();
