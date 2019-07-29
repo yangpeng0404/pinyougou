@@ -41,16 +41,15 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
     <!--组件扫描 注解驱动-->
-    <context:component-scan base-package="com.pinyougou.car.controller"></context:component-scan>
+    <context:component-scan base-package="com.pinyougou.page.controller"></context:component-scan>
     <!--配置dubbo的配置项-->
-    <dubbo:application name="pinyougou-cart-web"></dubbo:application>
+    <dubbo:application name="pinyougou-page-web"></dubbo:application>
     <dubbo:registry protocol="zookeeper" address="192.168.25.133" port="2181"></dubbo:registry>
     <!--dubbo注解配置-->
-    <dubbo:annotation package="com.pinyougou.car.controller"></dubbo:annotation>
+    <dubbo:annotation package="com.pinyougou.page.controller"></dubbo:annotation>
 
     <dubbo:consumer timeout="100000"></dubbo:consumer>
 
     <import resource="spring-security.xml"></import>
-
 
 </beans>

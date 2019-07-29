@@ -11,6 +11,7 @@ import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import com.pinyougou.core.service.CoreServiceImpl;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import tk.mybatis.mapper.entity.Example;
 
 import com.pinyougou.mapper.TbAddressMapper;
@@ -113,5 +114,14 @@ public class AddressServiceImpl extends CoreServiceImpl<TbAddress>  implements A
 
         return pageInfo;
     }
-	
+
+	@Override
+	public void delete(Long id) {
+		TbAddress tbAddress = new TbAddress();
+		tbAddress.setId(id);
+		addressMapper.delete(tbAddress);
+
+
+
+	}
 }

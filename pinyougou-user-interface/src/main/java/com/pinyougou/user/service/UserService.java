@@ -3,6 +3,9 @@ import com.pinyougou.pojo.TbUser;
 
 import com.github.pagehelper.PageInfo;
 import com.pinyougou.core.service.CoreService;
+
+import java.util.List;
+
 /**
  * 服务层接口
  * @author Administrator
@@ -42,7 +45,16 @@ public interface UserService extends CoreService<TbUser> {
 	 */
 	public boolean  checkSmsCode(String phone,String code);
 
+	/**
+	 * 通过用户名查找用户
+	 * @param username
+	 * @return
+	 */
+	public TbUser findUserByUsername(String username);
 
-
-	
+	/***
+	 * 我的足迹
+	 * @return
+	 */
+	public List footmark(String username);
 }

@@ -97,6 +97,7 @@ public class CartController {
     public Result addGoodsToCartList(Long itemId, Integer num, HttpServletRequest request, HttpServletResponse response) {
         //response.setHeader("Access-Control-Allow-Origin", "http://localhost:9105");//统一指定的域访问我的服务器资源
         //response.setHeader("Access-Control-Allow-Credentials", "true");//同意客户端携带cookie
+
         try {
             //find方法主要是做获取，add要做添加，也要判断是否登录
             String name = SecurityContextHolder.getContext().getAuthentication().getName();

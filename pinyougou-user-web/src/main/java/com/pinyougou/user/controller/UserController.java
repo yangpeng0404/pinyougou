@@ -1,10 +1,23 @@
 package com.pinyougou.user.controller;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
+import com.pinyougou.car.service.CartService;
+import com.pinyougou.common.utils.CookieUtil;
 import com.pinyougou.common.utils.PhoneFormatCheckUtils;
+import com.pinyougou.order.service.OrderService;
+import com.pinyougou.pay.service.PayService;
+import com.pinyougou.pojo.Cart;
+import com.pinyougou.pojo.TbOrder;
+import com.pinyougou.pojo.TbPayLog;
+import com.pinyougou.pojogroup.UserOrder;
 import com.pinyougou.user.service.UserService;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 
 import org.springframework.validation.FieldError;
@@ -15,6 +28,10 @@ import com.pinyougou.pojo.TbUser;
 import com.github.pagehelper.PageInfo;
 import entity.Result;
 import entity.Error;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * controller
  * @author Administrator
@@ -26,6 +43,13 @@ public class UserController {
 
 	@Reference
 	private UserService userService;
+
+	@Reference
+	private OrderService orderService;
+
+	@Reference
+	private CartService cartService;
+
 	
 	/**
 	 * 返回全部列表
@@ -34,6 +58,18 @@ public class UserController {
 	@RequestMapping("/findAll")
 	public List<TbUser> findAll(){			
 		return userService.findAll();
+	}
+
+
+	@RequestMapping("/addpayLog")
+	public Result addpayLog(Long orderId) {
+		try {
+			orderService.addPayLog(orderId);
+			return new Result(true, "增加成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result(false, "增加失败");
+		}
 	}
 	
 	
@@ -128,6 +164,7 @@ public class UserController {
 	 * @param id
 	 * @return
 	 */
+
 	@RequestMapping("/findOne/{id}")
 	public TbUser findOne(@PathVariable(value = "id") Long id){
 		return userService.findOne(id);		
@@ -157,5 +194,46 @@ public class UserController {
                                       @RequestBody TbUser user) {
         return userService.findPage(pageNo, pageSize, user);
     }
-	
+
+
+
+	/**
+	 * 根据用户 id查询相对应订单
+	 * @return 返回一个订单集合
+	 */
+	@RequestMapping("/findOrderList")
+	public List<UserOrder> findOrderList(@RequestBody TbOrder order){
+		//查询当前登录用户
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		order.setUserId(username);
+
+		List<UserOrder> userOrders = orderService.findOrderByUser(order);
+
+		return userOrders;
+	}
+
+
+	/**
+	 * 通过用户名查找用户
+	 * @return
+	 */
+	@RequestMapping("/findUserByUsername")
+	public TbUser findUserByUsername() {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+		TbUser user = userService.findUserByUsername(username);
+
+		return user;
+
+	}
+
+
+	//我的足迹
+	@RequestMapping("/footmark")
+	public List footmark(){
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		return userService.footmark(username);
+	}
+
+
 }
