@@ -13,6 +13,7 @@ import entity.Result;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,6 +30,22 @@ public class SeckillGoodsController {
 
 	@Reference
 	private ItemService itemService;
+
+	@RequestMapping("/addSeckillGoods")
+	public Result addSeckillGoods(@RequestBody TbSeckillGoods seckillGoods){
+		try {
+			String name = SecurityContextHolder.getContext().getAuthentication().getName();
+			seckillGoods.setSellerId(name);
+			seckillGoods.setStatus("0");
+			seckillGoods.setCreateTime(new Date());
+			seckillGoodsService.add(seckillGoods);
+			return new Result(true, "增加成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result(false, "增加失败");
+		}
+	}
+
 
 	/**
 	 *

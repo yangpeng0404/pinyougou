@@ -32,4 +32,6 @@ public interface SeckillGoodsService  {
 	 * @return
 	 */
 	List<TbGoods> findGoodsBySellerId(TbGoods tbGoods);
+
+	void add(TbSeckillGoods seckillGoods);
 }

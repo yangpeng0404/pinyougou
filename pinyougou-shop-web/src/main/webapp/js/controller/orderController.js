@@ -6,21 +6,27 @@
         list:[],
         entity:{},
         itemCatList:[],//存储商品分类的所有的数据
-        status:['未审核','已审核','审核未通过','已关闭'],
+        status:['','未付款','已付款','未发货','已发货','交易成功','交易关闭','待评价'],
         ids:[],
         abc:{itemcatList:[]},
-        //这里初始化是，查询未审核的
-        searchEntity:{auditStatus:'0'}
+        searchEntity:{status:'1'},
+        type:['','在线支付','货到付款']
     },
     methods: {
+        updateStatus:function (status) {
+            axios.post('/order/updateStatus/'+status+'.shtml',this.ids).then(function (response) {
+                if(response.data.success){
+                    app.ids=[];
+                    app.searchList(1);
+                }
+            }).catch(function (error) {
+                console.log("1231312131321");
+            });
+        },
         searchList:function (curPage) {
-
-            axios.post('/goods/search.shtml?pageNo='+curPage,this.searchEntity).then(function (response) {
-
+            axios.post('/order/search.shtml?pageNo='+curPage,this.searchEntity).then(function (response) {
                 //获取数据
                 app.list=response.data.list;
-
-                //alert(JSON.stringify(app.list))
 
                 //当前页
                 app.pageNo=curPage;
@@ -106,6 +112,7 @@
                 function (response) {
                     //List<tbItemcat>
                     //app.itemCatList=response.data;
+
                     for(var i=0;i<response.data.length;i++){
                         app.itemCatList[response.data[i].id]=response.data[i].name;
                     }
@@ -116,25 +123,6 @@
 
                 }
             );
-        },
-        deleteById:function () {
-            axios.post('/goods/deleteById.shtml',this.ids).then(function (response) {
-                if(response.data.success){
-                    app.searchList(1);
-                }
-            }).catch(function (error) {
-                console.log("1231312131321");
-            });
-        },
-        updateStatus:function (status) {
-            alert(status)
-            axios.post('/goods/updateStatus/'+status+'.shtml',this.ids).then(function (response) {
-                if(response.data.success){
-                    app.searchList(1);
-                }
-            }).catch(function (error) {
-                console.log("1231312131321");
-            });
         }
 
 
@@ -145,8 +133,6 @@
       
         this.searchList(1);
 
-
-        this.findAllItemCatList();
 
 
     }
