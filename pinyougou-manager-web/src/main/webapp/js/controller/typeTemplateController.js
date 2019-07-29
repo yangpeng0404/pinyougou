@@ -100,7 +100,7 @@
         },
         findBrands:function () {
             axios.get('/brand/findAll.shtml').then(function (response) {
-                let brandList = response.data;//[{id,name}]
+                var brandList = response.data;//[{id,name}]
                 for(var i=0;i<brandList.length;i++){
                     //定义一个集合接收数据
                     app.brandOptions.push({id:brandList[i].id,text:brandList[i].name});
@@ -109,7 +109,7 @@
         },
         findSpecs:function () {
             axios.get('/specification/findAll.shtml').then(function (response) {
-                let brandList = response.data;//[{id,name}]
+                var brandList = response.data;//[{id,name}]
                 for(var i=0;i<brandList.length;i++){
                     //定义一个集合接收数据
                     app.specOptions.push({id:brandList[i].id,text:brandList[i].specName});

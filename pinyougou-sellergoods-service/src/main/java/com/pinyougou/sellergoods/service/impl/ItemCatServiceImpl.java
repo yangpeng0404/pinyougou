@@ -1,10 +1,11 @@
 package com.pinyougou.sellergoods.service.impl;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
+import java.util.*;
+
+
+import com.pinyougou.pojo.TbGoods;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
@@ -67,8 +68,8 @@ public class ItemCatServiceImpl extends CoreServiceImpl<TbItemCat>  implements I
 
         Example example = new Example(TbItemCat.class);
         Example.Criteria criteria = example.createCriteria();
-
-        if(itemCat!=null){			
+        if(itemCat!=null){
+            criteria.andEqualTo("status","0");
 						if(StringUtils.isNotBlank(itemCat.getName())){
 				criteria.andLike("name","%"+itemCat.getName()+"%");
 				//criteria.andNameLike("%"+itemCat.getName()+"%");
@@ -100,7 +101,20 @@ public class ItemCatServiceImpl extends CoreServiceImpl<TbItemCat>  implements I
             //存入redis
             redisTemplate.boundHashOps("itemCat").put(itemCat.getName(), itemCat.getTypeId());
         }
+
         return itemCatMapper.select(tbitemCat);
+    }
+
+    @Override
+    public void updateStatus(Long[] ids, String status) {
+        TbItemCat tbItemCat = new TbItemCat();
+        tbItemCat.setStatus(status);
+        //条件 创建条件将ids加进去
+        Example example = new Example(TbGoods.class);
+        Example.Criteria criteria = example.createCriteria();
+        //条件就是 goods的id
+        criteria.andIn("id", Arrays.asList(ids));
+        itemCatMapper.updateByExampleSelective(tbItemCat,example);
     }
 
     @Override

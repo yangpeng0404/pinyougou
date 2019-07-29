@@ -38,5 +38,13 @@ public interface ItemCatService extends CoreService<TbItemCat> {
 	 */
 	List<TbItemCat> findParentId(Long parentId);
 
+
+	/**
+	 * 审查更新状态
+	 * @param ids
+	 * @param status
+	 */
+	void updateStatus(Long[] ids, String status);
+
 	List<Map<String,Object>> findtwothree(Long parentId);
 }

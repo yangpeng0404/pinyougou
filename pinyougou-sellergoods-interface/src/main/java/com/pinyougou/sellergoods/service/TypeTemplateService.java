@@ -12,9 +12,15 @@ import com.pinyougou.core.service.CoreService;
  *
  */
 public interface TypeTemplateService extends CoreService<TbTypeTemplate> {
-	
-	
-	
+
+
+	/**
+	 * 更新审核状态
+	 * @param ids
+	 * @param status
+	 */
+	void updateStatus(Long[] ids,String status);
+
 	/**
 	 * 返回分页列表
 	 * @return
