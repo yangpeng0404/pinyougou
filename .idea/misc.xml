@@ -2,6 +2,10 @@
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/itheima-cas-client-demo1" />
+    <file type="web" url="file://$PROJECT_DIR$/itheima-cas-client-demo2" />
+    <file type="web" url="file://$PROJECT_DIR$/itheima-cas-security-demo3" />
+    <file type="web" url="file://$PROJECT_DIR$/itheima-sms-service" />
     <file type="web" url="file://$PROJECT_DIR$/pinyougou-cart-service" />
     <file type="web" url="file://$PROJECT_DIR$/pinyougou-content-service" />
     <file type="web" url="file://$PROJECT_DIR$/pinyougou-manager-web" />
@@ -21,6 +25,9 @@
     <file type="web" url="file://$PROJECT_DIR$/pinyougou-user-service" />
     <file type="web" url="file://$PROJECT_DIR$/pinyougou-user-web" />
     <file type="web" url="file://$PROJECT_DIR$/pinyouogu-cart-web" />
+  </component>
+  <component name="JavaScriptSettings">
+    <option name="languageLevel" value="ES6" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">

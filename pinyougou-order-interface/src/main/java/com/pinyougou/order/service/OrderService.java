@@ -4,6 +4,9 @@ import com.pinyougou.pojo.TbOrder;
 import com.github.pagehelper.PageInfo;
 import com.pinyougou.core.service.CoreService;
 import com.pinyougou.pojo.TbPayLog;
+import com.pinyougou.pojogroup.UserOrder;
+
+import java.util.List;
 
 /**
  * 服务层接口
@@ -14,6 +17,7 @@ public interface OrderService extends CoreService<TbOrder> {
 
 
 
+	void addPayLog(Long orderId);
 
 	/**
 	 * 返回分页列表
@@ -46,4 +50,11 @@ public interface OrderService extends CoreService<TbOrder> {
 	 */
 	void updateStatus(String out_trade_no, String transaction_id);
 
+
+	/**
+	 * 用户ID,状态 查询订单
+	 * @param
+	 * @return
+	 */
+	List<UserOrder> findOrderByUser(TbOrder order);
 }

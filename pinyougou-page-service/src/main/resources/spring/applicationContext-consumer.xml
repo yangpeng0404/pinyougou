@@ -13,7 +13,6 @@
             <map>
                 <!--订阅springTopic主题，消费所有的Tag-->
                 <entry key="Goods_Topic" value="*"></entry>
-                <entry key="Goods_Tops" value="*"></entry>
             </map>
         </property>
         <!--消费者组-->

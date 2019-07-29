@@ -28,5 +28,8 @@ public interface AddressService extends CoreService<TbAddress> {
 	 * @return
 	 */
 	PageInfo<TbAddress> findPage(Integer pageNo, Integer pageSize, TbAddress Address);
-	
+
+
+
+	public void delete(Long id);
 }

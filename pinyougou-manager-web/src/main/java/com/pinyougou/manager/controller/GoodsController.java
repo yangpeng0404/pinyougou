@@ -2,7 +2,6 @@ package com.pinyougou.manager.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.github.pagehelper.PageInfo;
 import com.pinyougou.page.service.ItemPageService;
 import com.pinyougou.pojo.MessageInfo;
