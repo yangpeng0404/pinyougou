@@ -5,6 +5,8 @@ import com.github.pagehelper.PageInfo;
 import com.pinyougou.core.service.CoreService;
 import com.pinyougou.pojo.TbPayLog;
 
+import java.util.List;
+
 /**
  * 服务层接口
  * @author Administrator
@@ -45,5 +47,19 @@ public interface OrderService extends CoreService<TbOrder> {
 	 * @param transaction_id
 	 */
 	void updateStatus(String out_trade_no, String transaction_id);
+
+
+
+    /****
+     * 查询所有订单信息
+     * @return
+     */
+    List<TbOrder> findAll();
+
+
+
+
+
+
 
 }

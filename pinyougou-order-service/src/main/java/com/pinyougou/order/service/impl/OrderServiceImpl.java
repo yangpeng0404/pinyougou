@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.pinyougou.common.utils.CookieUtil;
 import com.pinyougou.common.utils.IdWorker;
 import com.pinyougou.mapper.TbOrderItemMapper;
@@ -140,6 +141,7 @@ public class OrderServiceImpl extends CoreServiceImpl<TbOrder>  implements Order
         List<TbOrder> all = orderMapper.selectAll();
         PageInfo<TbOrder> info = new PageInfo<TbOrder>(all);
 
+
         //序列化再反序列化
         String s = JSON.toJSONString(info);
         PageInfo<TbOrder> pageInfo = JSON.parseObject(s, PageInfo.class);
@@ -226,8 +228,9 @@ public class OrderServiceImpl extends CoreServiceImpl<TbOrder>  implements Order
         List<TbOrder> all = orderMapper.selectByExample(example);
         PageInfo<TbOrder> info = new PageInfo<TbOrder>(all);
         //序列化再反序列化
-        String s = JSON.toJSONString(info);
+        String s = JSON.toJSONString(info, SerializerFeature.WriteDateUseDateFormat);
         PageInfo<TbOrder> pageInfo = JSON.parseObject(s, PageInfo.class);
+
 
         return pageInfo;
     }
@@ -261,4 +264,19 @@ public class OrderServiceImpl extends CoreServiceImpl<TbOrder>  implements Order
 		redisTemplate.boundHashOps("payLog").delete(payLog.getUserId());
 	}
 
+
+   /* *//****
+     *用于查询所有订单的实现
+     * @return
+     *//*
+
+    public List<TbOrder> findAll() {
+
+        List<TbOrder> tbOrders = orderMapper.selectAll();
+        for ( TbOrder tbOrder : tbOrders ) {
+            System.out.println(tbOrder);
+        }
+        return tbOrders;
+
+    }*/
 }

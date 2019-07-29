@@ -1,13 +1,22 @@
 ﻿var app = new Vue({
     el: "#app",
     data: {
-        pages:15,
+        pages:10,
         pageNo:1,
         list:[],
         entity:{},
-        ids:[],
-        searchEntity:{"status":"2"}
-    },
+        goodsId:{},
+        title:{},
+        smallPic:{},
+        price:{},
+        startTime:{},
+        endTime:{},
+        num:{},
+        status:{},
+        stockCount:{},
+        searchEntity:{},
+        ids:[]
+        },
     methods: {
         searchList:function (curPage) {
             axios.post('/seckillGoods/search.shtml?pageNo='+curPage,this.searchEntity).then(function (response) {
@@ -23,7 +32,7 @@
         updateStatus:function (status) {
             axios.post('/seckillGoods/updateStatus.shtml?status='+status,this.ids).then(function (response) {
                 if(response.data.success){
-                    window.location.reload()
+                    window.location.reload();
                     alert("成功")
                 }
             });
