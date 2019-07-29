@@ -35,10 +35,10 @@ public class BrandServiceImpl extends CoreServiceImpl<TbBrand>  implements Brand
 		this.brandMapper=brandMapper;
 	}
 
-	
 
 
-	
+
+
 	@Override
     public PageInfo<TbBrand> findPage(Integer pageNo, Integer pageSize) {
         PageHelper.startPage(pageNo,pageSize);
@@ -61,7 +61,8 @@ public class BrandServiceImpl extends CoreServiceImpl<TbBrand>  implements Brand
         Example example = new Example(TbBrand.class);
         Example.Criteria criteria = example.createCriteria();
 
-        if(brand!=null){			
+
+        if(brand!=null){
 						if(StringUtils.isNotBlank(brand.getName())){
 				criteria.andLike("name","%"+brand.getName()+"%");
 				//criteria.andNameLike("%"+brand.getName()+"%");

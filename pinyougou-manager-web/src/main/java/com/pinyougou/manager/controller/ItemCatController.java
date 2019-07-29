@@ -36,6 +36,24 @@ public class ItemCatController {
                                       @RequestParam(value = "pageSize", defaultValue = "10", required = true) Integer pageSize) {
         return itemCatService.findPage(pageNo, pageSize);
     }
+
+	/**
+	 * 审查更新
+	 * @param ids
+	 * @param status
+	 * @return
+	 */
+	@RequestMapping("/updateStatus/{status}")
+	public Result updateStatus(@RequestBody Long[] ids, @PathVariable(value="status")  String status){
+		try {
+			itemCatService.updateStatus(ids,status);
+
+			return new Result(true,"更新成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result(false,"更新失败");
+		}
+	}
 	
 	/**
 	 * 增加

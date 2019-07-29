@@ -17,6 +17,37 @@ public class TbBrand implements Serializable {
     private String name;
 
     /**
+     * 状态 状态id  0代表正在审核 1 代表通过 2代表驳回 状态id  0代表正在审核 1 代表通过 2代表驳回
+     */
+    @Column(name = "status")
+    private String status;
+
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+
+
+    /**
+     * 申请商家名称
+     */
+    @Column(name = "seller_id")
+    private String sellerId;
+
+    public String getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(String sellerId) {
+        this.sellerId = sellerId;
+    }
+
+    /**
      * 品牌首字母
      */
     @Column(name = "first_char")

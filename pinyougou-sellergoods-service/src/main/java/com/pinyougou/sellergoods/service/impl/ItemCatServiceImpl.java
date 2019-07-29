@@ -1,6 +1,11 @@
 package com.pinyougou.sellergoods.service.impl;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired; 
+
+import java.util.*;
+
+
+import com.pinyougou.pojo.TbGoods;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
@@ -63,8 +68,8 @@ public class ItemCatServiceImpl extends CoreServiceImpl<TbItemCat>  implements I
 
         Example example = new Example(TbItemCat.class);
         Example.Criteria criteria = example.createCriteria();
-
-        if(itemCat!=null){			
+        if(itemCat!=null){
+            criteria.andEqualTo("status","0");
 						if(StringUtils.isNotBlank(itemCat.getName())){
 				criteria.andLike("name","%"+itemCat.getName()+"%");
 				//criteria.andNameLike("%"+itemCat.getName()+"%");
@@ -98,6 +103,39 @@ public class ItemCatServiceImpl extends CoreServiceImpl<TbItemCat>  implements I
         }
 
         return itemCatMapper.select(tbitemCat);
+    }
+
+    @Override
+    public void updateStatus(Long[] ids, String status) {
+        TbItemCat tbItemCat = new TbItemCat();
+        tbItemCat.setStatus(status);
+        //条件 创建条件将ids加进去
+        Example example = new Example(TbGoods.class);
+        Example.Criteria criteria = example.createCriteria();
+        //条件就是 goods的id
+        criteria.andIn("id", Arrays.asList(ids));
+        itemCatMapper.updateByExampleSelective(tbItemCat,example);
+    }
+
+    @Override
+    public List<Map<String,Object>> findtwothree(Long parentId) {
+        TbItemCat cat = new TbItemCat();
+        cat.setParentId(parentId);
+        List<Map<String,Object>> list = new ArrayList<>();
+        List<TbItemCat> tbItemCats = itemCatMapper.select(cat);
+        for (TbItemCat tbItemCat : tbItemCats) {
+            Map<String,Object> two = new HashMap<>();
+            two.put("twoCat",tbItemCat);
+            List<TbItemCat> threeList = new ArrayList<>();
+            cat.setParentId(tbItemCat.getId());
+            List<TbItemCat> newthreelist = itemCatMapper.select(cat);
+            for (TbItemCat threeitemCat : newthreelist) {
+                threeList.add(threeitemCat);
+            }
+            two.put("threeCatList",threeList);
+            list.add(two);
+        }
+        return list;
     }
 
 }

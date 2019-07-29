@@ -12,9 +12,25 @@
         receiver:{},
         searchEntity:{},
         ids:[],
-        specList:[],//规格的数据列表 格式：[{id:1,text:"网络",options:[{},{}]}]
+        specList:[],
+        itemCatList:[],//存储商品分类的所有的数据
+        status:['','未付款','已付款','未发货','已发货','交易成功','交易关闭','待评价'],
+        ids:[],
+        abc:{itemcatList:[]},
+        searchEntity:{status:'1'},
+        type:['','在线支付','货到付款']
     },
     methods: {
+        updateStatus:function (status) {
+            axios.post('/order/updateStatus/'+status+'.shtml',this.ids).then(function (response) {
+                if(response.data.success){
+                    app.ids=[];
+                    app.searchList(1);
+                }
+            }).catch(function (error) {
+                console.log("1231312131321");
+            });
+        },
         searchList:function (curPage) {
             axios.post('/order/search.shtml?pageNo='+curPage,this.searchEntity).then(function (response) {
                 //获取数据
@@ -24,16 +40,12 @@
                 app.pageNo=curPage;
                 //总页数
                 app.pages=response.data.pages;
-
             });
         },
-
-
-
-        //查询所有订单列表
+        //查询所有品牌列表
         findAll:function () {
             console.log(app);
-            axios.get('/order/findAll.shtml').then(function (response) {
+            axios.get('/goods/findAll.shtml').then(function (response) {
                 console.log(response);
                 //注意：this 在axios中就不再是 vue实例了。
                 app.list=response.data;
@@ -42,12 +54,94 @@
 
             })
         },
-    },
+         findPage:function () {
+            var that = this;
+            axios.get('/goods/findPage.shtml',{params:{
+                pageNo:this.pageNo
+            }}).then(function (response) {
+                console.log(app);
+                //注意：this 在axios中就不再是 vue实例了。
+                app.list=response.data.list;
+                app.pageNo=curPage;
+                //总页数
+                app.pages=response.data.pages;
+            }).catch(function (error) {
 
+            })
+        },
+        //该方法只要不在生命周期的
+        add:function () {
+            axios.post('/goods/add.shtml',this.entity).then(function (response) {
+                console.log(response);
+                if(response.data.success){
+                    app.searchList(1);
+                }
+            }).catch(function (error) {
+                console.log("1231312131321");
+            });
+        },
+        update:function () {
+            axios.post('/goods/update.shtml',this.entity).then(function (response) {
+                console.log(response);
+                if(response.data.success){
+                    app.searchList(1);
+                }
+            }).catch(function (error) {
+                console.log("1231312131321");
+            });
+        },
+        save:function () {
+            if(this.entity.id!=null){
+                this.update();
+            }else{
+                this.add();
+            }
+        },
+        findOne:function (id) {
+            axios.get('/goods/findOne/'+id+'.shtml').then(function (response) {
+                app.entity=response.data;
+            }).catch(function (error) {
+                console.log("1231312131321");
+            });
+        },
+        dele:function () {
+            axios.post('/goods/delete.shtml',this.ids).then(function (response) {
+                console.log(response);
+                if(response.data.success){
+                    app.searchList(1);
+                }
+            }).catch(function (error) {
+                console.log("1231312131321");
+            });
+        },
+        findAllItemCatList:function () {
+            var that = this;
+            axios.get('/itemCat/findAll.shtml').then(
+                function (response) {
+                    //List<tbItemcat>
+                    //app.itemCatList=response.data;
+
+                    for(var i=0;i<response.data.length;i++){
+                        app.itemCatList[response.data[i].id]=response.data[i].name;
+                    }
+                    //重新渲染一次
+                    that.$mount("#app");
+
+                    //that.$set(app.abc,"itemcatList",app.itemCatList);
+
+                }
+            );
+        }
+
+
+
+    },
     //钩子函数 初始化了事件和
     created: function () {
-
+      
         this.searchList(1);
+
+
 
     }
 

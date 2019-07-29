@@ -2,7 +2,6 @@ package com.pinyougou.manager.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.github.pagehelper.PageInfo;
 import com.pinyougou.page.service.ItemPageService;
 import com.pinyougou.pojo.MessageInfo;
@@ -112,6 +111,32 @@ public class GoodsController {
 			}
 
 
+
+
+			return new Result(true,"更新成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result(false,"更新失败");
+		}
+	}
+
+
+	@RequestMapping("/deleteById")
+	public Result deleteById(@RequestBody Long[] ids){
+		try {
+
+			goodsService.deleteStatus(ids);
+
+			//使用消息中间件
+			MessageInfo messageInfo = new MessageInfo("Goods_Tops","goods_delete_tag","delete",ids,MessageInfo.METHOD_DELETE);
+			Message message = new Message(messageInfo.getTopic(),messageInfo.getTags(), messageInfo.getKeys(),JSON.toJSONString(messageInfo).getBytes());
+			producer.send(message);
+
+//			MessageInfo messageInfo = new MessageInfo("Goods_Topic", "goods_update_tag", "updateStatus", tbItemByIds, MessageInfo.METHOD_UPDATE);
+//				SendResult result = producer.send(new Message(
+//						messageInfo.getTopic(), messageInfo.getTags(), messageInfo.getKeys(),
+//						JSON.toJSONString(messageInfo).getBytes()
+
 			return new Result(true,"更新成功");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -159,9 +184,9 @@ public class GoodsController {
 			//同步删除es中的item
 			//itemSearchService.deleteByIds(ids);
 			//使用消息中间件
-			MessageInfo messageInfo = new MessageInfo("Goods_Tops","goods_delete_tag","delete",ids,MessageInfo.METHOD_DELETE);
-			Message message = new Message(messageInfo.getTopic(),messageInfo.getTags(), JSON.toJSONString(messageInfo.toString()).getBytes());
-			producer.send(message);
+//			MessageInfo messageInfo = new MessageInfo("Goods_Tops","goods_delete_tag","delete",ids,MessageInfo.METHOD_DELETE);
+//			Message message = new Message(messageInfo.getTopic(),messageInfo.getTags(), JSON.toJSONString(messageInfo.toString()).getBytes());
+//			producer.send(message);
 
 			return new Result(true, "删除成功"); 
 		} catch (Exception e) {

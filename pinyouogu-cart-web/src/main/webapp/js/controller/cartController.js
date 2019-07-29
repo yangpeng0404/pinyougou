@@ -35,11 +35,11 @@ var app = new Vue({
                 app.cartList = response.data;
                 app.totalMoney=0;
                 app.totalNum=0;
-                let  cartListAll=response.data;
+                var cartListAll=response.data;
 
-                for(let i=0;i<cartListAll.length;i++){
-                    let cart = cartListAll[i];
-                    for(let j=0;j<cart.orderItemList.length;j++){
+                for(var i=0;i<cartListAll.length;i++){
+                    var cart = cartListAll[i];
+                    for(var j=0;j<cart.orderItemList.length;j++){
                         app.totalNum+=cart.orderItemList[j].num;
                         app.totalMoney+=cart.orderItemList[j].totalFee;
                     }
@@ -71,6 +71,23 @@ var app = new Vue({
                     alert(response.data.message);
                 }
             });
+        },
+        addToMyList:function(itemId,num){
+            axios.get('http://localhost:9106/user/addToMyList.shtml', {
+                params: {
+                    itemId:itemId,
+                    num:num
+                },
+                withCredentials:true
+            }).then(function (response) {
+                if (response.data.success) {
+                    //添加购物车成功
+                    window.location.href = "http://localhost:9106/home-person-collect.html";
+                } else {
+                    //添加购物车失败
+                    alert(response.data.message);
+                }
+            })
         },
         getUserName:function () {
             axios.get('/login/name.shtml').then(function (response) {

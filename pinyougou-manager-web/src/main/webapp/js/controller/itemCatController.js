@@ -9,7 +9,7 @@
         searchEntity:{},
         entity_1:{},//变量1
         entity_2:{},//变量2
-        grade:1,//当前等级
+        grade:1//当前等级
     },
     methods: {
         searchList:function (curPage) {

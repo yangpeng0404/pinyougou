@@ -51,6 +51,9 @@ var app = new Vue({
     //钩子函数
     created:function () {
         //页面一加载就应当调用
+        if (this.getUrlParam().id!=undefined) {
+            this.createNativepay(this.getUrlParam().id)
+        }
         this.createNative();
 
         var obj = this.getUrlParam();

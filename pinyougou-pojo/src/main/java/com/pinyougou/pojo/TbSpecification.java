@@ -13,19 +13,68 @@ public class TbSpecification implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+
+    /**
+     * 状态 状态id  0代表正在审核 1 代表通过 2代表驳回 状态id  0代表正在审核 1 代表通过 2代表驳回
+     */
+    @Column(name = "status")
+    private String status;
+
+    @Override
+    public String toString() {
+        return "TbSpecification{" +
+                "id=" + id +
+                ", status='" + status + '\'' +
+                ", optionOrder='" + optionOrder + '\'' +
+                ", sellerId='" + sellerId + '\'' +
+                ", specName='" + specName + '\'' +
+                '}';
+    }
+
+    public String getOptionOrder() {
+        return optionOrder;
+    }
+
+    public void setOptionOrder(String optionOrder) {
+        this.optionOrder = optionOrder;
+    }
+
+    /**
+     * 选项与排序数组{option:'',oder:''}
+     */
+    @Column(name = "option_order")
+    private String optionOrder;
+
+    /**
+     * 申请商家名称
+     */
+    @Column(name = "seller_id")
+    private String sellerId;
+
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(String sellerId) {
+        this.sellerId = sellerId;
+    }
+
     /**
      * 名称
      */
     @Column(name = "spec_name")
     private String specName;
 
-    @Override
-    public String toString() {
-        return "TbSpecification{" +
-                "id=" + id +
-                ", specName='" + specName + '\'' +
-                '}';
-    }
 
     private static final long serialVersionUID = 1L;
 

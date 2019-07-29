@@ -60,4 +60,11 @@ public interface GoodsService extends CoreService<TbGoods> {
 	 */
 	List<TbItem> findTbItemListByIds(Long[] ids);
 
+	/**
+	 * 批量修改isdelete状态
+	 * @param ids
+	 * @param
+	 */
+	void deleteStatus(Long[] ids);
+
 }

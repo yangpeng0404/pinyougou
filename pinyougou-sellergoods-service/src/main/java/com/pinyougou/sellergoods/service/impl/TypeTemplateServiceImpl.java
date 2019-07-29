@@ -1,8 +1,11 @@
 package com.pinyougou.sellergoods.service.impl;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import com.pinyougou.mapper.TbSpecificationOptionMapper;
+import com.pinyougou.pojo.TbBrand;
+import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.pojo.TbSpecificationOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
@@ -45,11 +48,20 @@ public class TypeTemplateServiceImpl extends CoreServiceImpl<TbTypeTemplate>  im
 		this.typeTemplateMapper=typeTemplateMapper;
 	}
 
-	
-	
 
-	
-	@Override
+    @Override
+    public void updateStatus(Long[] ids, String status) {
+		TbTypeTemplate tbTypeTemplate = new TbTypeTemplate();
+		tbTypeTemplate.setStatus(status);
+		//条件 创建条件将ids加进去
+		Example example = new Example(TbGoods.class);
+		Example.Criteria criteria = example.createCriteria();
+		//条件就是 goods的id
+		criteria.andIn("id", Arrays.asList(ids));
+		typeTemplateMapper.updateByExampleSelective(tbTypeTemplate,example);
+    }
+
+    @Override
     public PageInfo<TbTypeTemplate> findPage(Integer pageNo, Integer pageSize) {
         PageHelper.startPage(pageNo,pageSize);
         List<TbTypeTemplate> all = typeTemplateMapper.selectAll();
@@ -71,7 +83,8 @@ public class TypeTemplateServiceImpl extends CoreServiceImpl<TbTypeTemplate>  im
         Example example = new Example(TbTypeTemplate.class);
         Example.Criteria criteria = example.createCriteria();
 
-        if(typeTemplate!=null){			
+        if(typeTemplate!=null){
+        	criteria.andEqualTo("status","0");
 						if(StringUtils.isNotBlank(typeTemplate.getName())){
 				criteria.andLike("name","%"+typeTemplate.getName()+"%");
 				//criteria.andNameLike("%"+typeTemplate.getName()+"%");

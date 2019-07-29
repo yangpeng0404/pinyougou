@@ -20,6 +20,23 @@ public class SpecificationController {
 
 	@Reference
 	private SpecificationService specificationService;
+
+	/**
+	 * 审查更新
+	 * @param ids
+	 * @param status
+	 * @return
+	 */
+	@RequestMapping("/updateStatus/{status}")
+	public Result updateStatus(@RequestBody Long[] ids, @PathVariable(value="status")  String status){
+		try {
+			specificationService.updateStatus(ids,status);
+			return new Result(true,"更新成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result(false,"更新失败");
+		}
+	}
 	
 	/**
 	 * 返回全部列表
