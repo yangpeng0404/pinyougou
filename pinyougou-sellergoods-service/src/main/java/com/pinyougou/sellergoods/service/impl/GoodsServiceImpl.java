@@ -194,6 +194,19 @@ public class GoodsServiceImpl extends CoreServiceImpl<TbGoods>  implements Goods
 		return tbItems;
 	}
 
+	@Override
+	public void deleteStatus(Long[] ids) {
+		TbGoods tbGoods = new TbGoods();
+		tbGoods.setIsDelete(true);
+		//条件 创建条件将ids加进去
+		Example example = new Example(TbGoods.class);
+		Example.Criteria criteria = example.createCriteria();
+		//条件就是 goods的id
+		criteria.andIn("id", Arrays.asList(ids));
+		goodsMapper.updateByExampleSelective(tbGoods,example);
+		//update set status=1 where id in (12,3)
+	}
+
 	/**
 	 * 这里从写delete，原来的delete是物理删除
 	 * @param ids

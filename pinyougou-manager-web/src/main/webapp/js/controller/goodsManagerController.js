@@ -117,6 +117,15 @@
                 }
             );
         },
+        deleteById:function () {
+            axios.post('/goods/deleteById.shtml',this.ids).then(function (response) {
+                if(response.data.success){
+                    app.searchList(1);
+                }
+            }).catch(function (error) {
+                console.log("1231312131321");
+            });
+        },
         updateStatus:function (status) {
             alert(status)
             axios.post('/goods/updateStatus/'+status+'.shtml',this.ids).then(function (response) {

@@ -3,7 +3,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.pinyougou.mapper.TbSpecificationOptionMapper;
+import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.pojo.TbSpecificationOption;
+import com.pinyougou.pojo.TbTypeTemplate;
 import entity.Specification;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
@@ -138,7 +140,8 @@ public class SpecificationServiceImpl extends CoreServiceImpl<TbSpecification>  
         Example example = new Example(TbSpecification.class);
         Example.Criteria criteria = example.createCriteria();
 
-        if(specification!=null){			
+        if(specification!=null){
+            criteria.andEqualTo("status","0");
 						if(StringUtils.isNotBlank(specification.getSpecName())){
 				criteria.andLike("specName","%"+specification.getSpecName()+"%");
 				//criteria.andSpecNameLike("%"+specification.getSpecName()+"%");
@@ -153,5 +156,17 @@ public class SpecificationServiceImpl extends CoreServiceImpl<TbSpecification>  
 
         return pageInfo;
     }
-	
+
+    @Override
+    public void updateStatus(Long[] ids, String status) {
+        TbSpecification tbSpecification = new TbSpecification();
+        tbSpecification.setStatus(status);
+        //条件 创建条件将ids加进去
+        Example example = new Example(TbGoods.class);
+        Example.Criteria criteria = example.createCriteria();
+        //条件就是 goods的id
+        criteria.andIn("id", Arrays.asList(ids));
+        specificationMapper.updateByExampleSelective(tbSpecification,example);
+    }
+
 }

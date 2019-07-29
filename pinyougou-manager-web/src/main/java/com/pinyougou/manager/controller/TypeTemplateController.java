@@ -1,6 +1,7 @@
 package com.pinyougou.manager.controller;
 import java.util.List;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.pojo.TbTypeTemplate;
@@ -19,7 +20,26 @@ public class TypeTemplateController {
 
 	@Reference
 	private TypeTemplateService typeTemplateService;
-	
+
+
+	/**
+	 * 审查更新
+	 * @param ids
+	 * @param status
+	 * @return
+	 */
+	@RequestMapping("/updateStatus/{status}")
+	public Result updateStatus(@RequestBody Long[] ids, @PathVariable(value="status")  String status){
+		try {
+			typeTemplateService.updateStatus(ids,status);
+
+			return new Result(true,"更新成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result(false,"更新失败");
+		}
+	}
+
 	/**
 	 * 返回全部列表
 	 * @return
@@ -45,6 +65,9 @@ public class TypeTemplateController {
 	@RequestMapping("/add")
 	public Result add(@RequestBody TbTypeTemplate typeTemplate){
 		try {
+			String name = SecurityContextHolder.getContext().getAuthentication().getName();
+			typeTemplate.setSellerId(name);
+			typeTemplate.setStatus("0");
 			typeTemplateService.add(typeTemplate);
 			return new Result(true, "增加成功");
 		} catch (Exception e) {

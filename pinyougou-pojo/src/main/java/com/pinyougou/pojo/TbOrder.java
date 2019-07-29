@@ -1,24 +1,33 @@
 package com.pinyougou.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
+
 import java.util.Date;
 import javax.persistence.*;
+import javax.xml.crypto.Data;
 
 @Table(name = "tb_order")
 public class TbOrder implements Serializable {
+
+
     /**
      * 订单id
+     * long类型的orderId变为String类型,解决传入前端时候,精度丢失问题
      */
     @Id
     @Column(name = "order_id")
-    private Long orderId;
+    private String orderId;
 
     /**
      * 实付金额。精确到2位小数;单位:元。如:200.07，表示:200元7分
      */
     @Column(name = "payment")
     private BigDecimal payment;
+
+
 
     /**
      * 支付类型，1、在线支付，2、货到付款
@@ -42,12 +51,14 @@ public class TbOrder implements Serializable {
      * 订单创建时间
      */
     @Column(name = "create_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GTM+8")
     private Date createTime;
 
     /**
      * 订单更新时间
      */
     @Column(name = "update_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GTM+8")
     private Date updateTime;
 
     /**
@@ -165,7 +176,7 @@ public class TbOrder implements Serializable {
      *
      * @return order_id - 订单id
      */
-    public Long getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
@@ -174,7 +185,7 @@ public class TbOrder implements Serializable {
      *
      * @param orderId 订单id
      */
-    public void setOrderId(Long orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 

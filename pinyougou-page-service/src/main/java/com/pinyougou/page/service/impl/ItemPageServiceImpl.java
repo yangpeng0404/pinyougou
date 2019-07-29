@@ -15,15 +15,14 @@ import freemarker.template.Template;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import tk.mybatis.mapper.entity.Example;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ItemPageServiceImpl implements ItemPageService {
@@ -49,6 +48,7 @@ public class ItemPageServiceImpl implements ItemPageService {
 
     /**
      * 通过 goodsId 来创建静态页面
+     *
      * @param goodsId
      */
     @Override
@@ -68,20 +68,60 @@ public class ItemPageServiceImpl implements ItemPageService {
         try {
             for (Long aLong : goodsId) {
                 FileUtils.forceDelete(new File(pageDir + aLong + ".html"));
+
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    //我的足迹
+    @Override
+    public void footmark(String username, LinkedList goodsIds) {
+
+        System.out.println(goodsIds);
+        List<TbGoods> footmarkGoods = new ArrayList();
+
+        for (Object goodsId : goodsIds) {
+            //先从redis缓存中根据id查
+            TbGoods goods = (TbGoods) redisTemplate.boundHashOps("byGoodsId").get(goodsId);
+
+            if (goods == null) {
+                //查询数据库,在加到redis
+                TbGoods goods1 = tbGoodsMapper.selectByPrimaryKey(goodsId);
+                redisTemplate.boundHashOps("byGoodsId").put(goodsId, goods1);
+
+            } else {
+                //把这些数据添加到一个List中,在存入另一个redis
+                footmarkGoods.add(goods);
+            }
+        }
+
+        //存入redis
+        redisTemplate.boundValueOps(username).set(footmarkGoods);
+    }
+
+
+    //清除redis缓存
+    @Override
+    public void qingchu(Long goodId) {
+        redisTemplate.boundHashOps("byGoodsId").delete(goodId);
+    }
+
+
+
     /**
      * 创建页面
+     *
      * @param templateName
      * @param tbGoods
      * @param tbGoodsDesc
      */
     private void genHTML(String templateName, TbGoods tbGoods, TbGoodsDesc tbGoodsDesc) {
-        FileWriter writer =null;
+        FileWriter writer = null;
 
         try {
             //1.创建一个configuration对象
@@ -99,21 +139,21 @@ public class ItemPageServiceImpl implements ItemPageService {
             TbItemCat tbItemCat1 = itemCatMapper.selectByPrimaryKey(tbGoods.getCategory1Id());
             TbItemCat tbItemCat2 = itemCatMapper.selectByPrimaryKey(tbGoods.getCategory2Id());
             TbItemCat tbItemCat3 = itemCatMapper.selectByPrimaryKey(tbGoods.getCategory3Id());
-            model.put("itemCat1",tbItemCat1.getName());
-            model.put("itemCat2",tbItemCat2.getName());
-            model.put("itemCat3",tbItemCat3.getName());
+            model.put("itemCat1", tbItemCat1.getName());
+            model.put("itemCat2", tbItemCat2.getName());
+            model.put("itemCat3", tbItemCat3.getName());
             //查询商品SPU的对应的所有的SKU的列表数据
             //select * from tb_item where goods_id=1 and status=1 order by is_default desc
 
             Example exmaple = new Example(TbItem.class);
             Example.Criteria criteria = exmaple.createCriteria();
-            criteria.andEqualTo("goodsId",tbGoods.getId());
-            criteria.andEqualTo("status","1");
+            criteria.andEqualTo("goodsId", tbGoods.getId());
+            criteria.andEqualTo("status", "1");
             exmaple.setOrderByClause("is_default desc");//order by  is_default desc
 
             List<TbItem> tbItems = itemMapper.selectByExample(exmaple);
 
-            model.put("skuList",tbItems);
+            model.put("skuList", tbItems);
 
             //5.创建一个写流，就是你要生成的文件留
             //路径写在配置文件之后只要改变 配置文件路径就可以创建页面
@@ -123,7 +163,7 @@ public class ItemPageServiceImpl implements ItemPageService {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
                 writer.close();
             } catch (IOException e) {

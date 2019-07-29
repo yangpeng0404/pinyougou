@@ -54,7 +54,7 @@
 						
                         <!--tab内容-->
                         <div class="tab-content">
-							{{entity}}
+
                             <!--表单内容-->
                             <div class="tab-pane active" id="home">
                                 <div class="row data-type">                                  
@@ -96,7 +96,7 @@
 		                           <div class="col-md-10 data">
 
 									   <select class="form-control" v-model="entity.goods.brandId" >
-										   <option :value="brand.id" v-for="brand in brandTextList">{{brand.text}}</option>
+										   <option :entityvalue="brand.id" v-for="brand in brandTextList">{{brand.text}}</option>
 									   </select>
 		                           </div>
 		

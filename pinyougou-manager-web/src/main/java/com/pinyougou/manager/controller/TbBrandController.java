@@ -1,10 +1,14 @@
 package com.pinyougou.manager.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+import com.pinyougou.pojo.MessageInfo;
+import com.pinyougou.pojo.TbItem;
 import entity.Result;
 import com.pinyougou.pojo.TbBrand;
 import com.pinyougou.sellergoods.service.TbBrandService;
+import org.apache.rocketmq.client.producer.SendResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -72,6 +76,24 @@ public class TbBrandController {
         } catch (Exception e) {
             e.printStackTrace();
             return new Result(false, "增加失败");
+        }
+    }
+
+    /**
+     * 审查更新
+     * @param ids
+     * @param status
+     * @return
+     */
+    @RequestMapping("/updateStatus/{status}")
+    public Result updateStatus(@RequestBody Long[] ids, @PathVariable(value="status")  String status){
+        try {
+            tbBrandService.updateStatus(ids,status);
+
+            return new Result(true,"更新成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,"更新失败");
         }
     }
 

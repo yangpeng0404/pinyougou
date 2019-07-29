@@ -3,6 +3,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.user.service.UserService;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.common.message.Message;
@@ -51,8 +52,6 @@ public class UserServiceImpl extends CoreServiceImpl<TbUser>  implements UserSer
 		this.userMapper=userMapper;
 	}
 
-	
-	
 
 	
 	@Override
@@ -176,5 +175,24 @@ public class UserServiceImpl extends CoreServiceImpl<TbUser>  implements UserSer
 		}
 		return true;
 	}
+
+    @Override
+    public TbUser findUserByUsername(String username) {
+
+		TbUser user = new TbUser();
+		user.setUsername(username);
+		TbUser tbUser = userMapper.selectOne(user);
+		return tbUser;
+
+    }
+
+	@Override
+	public List footmark(String username){
+
+		List<TbGoods> footmarkGoods = (List<TbGoods>) redisTemplate.boundValueOps(username).get();
+
+		return footmarkGoods;
+	}
+
 
 }

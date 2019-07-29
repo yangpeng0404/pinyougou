@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>商品编辑</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+  
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+	<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+    
+    <!-- 富文本编辑器 -->
+	<link rel="stylesheet" href="../plugins/kindeditor/themes/default/default.css" />
+	<script charset="utf-8" src="../plugins/kindeditor/kindeditor-min.js"></script>
+	<script charset="utf-8" src="../plugins/kindeditor/lang/zh_CN.js"></script>
+
+
+
+
+
+</head>
+
+<body class="hold-transition skin-red sidebar-mini" >
+<div id="app">
+
+{{entity}}
+
+            <!-- 正文区域 -->
+            <section class="content">
+
+                <div class="box-body">
+
+					<table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+						<thead>
+						<tr>
+							<th class="sorting">分类模板名称</th>
+							<th class="sorting">关联品牌</th>
+							<th class="sorting">关联规格</th>
+							<th class="sorting">扩展属性</th>
+							<th class="text-center">操作</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+							<td>{{entity.name}}</td>
+							<td>{{brandIdsStr}}</td>
+							<td>{{specIdsStr}}</td>
+							<td>
+								{{customAttributeItemsStr}}
+							</td>
+							<td class="text-center">
+								<button type="button"  class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" @click="add()">
+									提交
+								</button>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+
+                    <!--tab页-->
+                    <div class="nav-tabs-custom">
+
+                        <!--tab头-->
+                        <ul class="nav nav-tabs">                       		
+                            <li class="active">
+                                <a href="#home" data-toggle="tab">分类模板名称</a>
+                            </li>   
+                            <li >
+                                <a href="#pic_upload" data-toggle="tab">关联品牌</a>
+                            </li>    
+                            <li >
+                                <a href="#customAttribute" data-toggle="tab">关联规格</a>
+                            </li>     
+                            <li >
+                                <a href="#spec" data-toggle="tab" >扩展属性</a>
+                            </li>                       
+                        </ul>
+                        <!--tab头/-->
+						
+                        <!--tab内容-->
+                        <div class="tab-content">
+
+                            <!--表单内容-->
+                            <div class="tab-pane active" id="home">
+                                <div class="row data-type">                                  
+
+		                           <div class="col-md-2 title">分类模板名称</div>
+		                           <div class="col-md-10 data">
+		                               <input type="text" class="form-control" v-model="entity.name"     placeholder="商品名称" value="">
+		                           </div>
+
+
+                                  
+                                    
+                                </div>
+                            </div>
+                            
+                            <!--图片上传-->
+                            <div class="tab-pane" id="pic_upload">
+								<div class="box-body">
+
+									<!-- 数据表格 -->
+									<div class="table-box">
+
+										<!--数据列表-->
+										<table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+											<thead>
+											<tr>
+												<th class="sorting_asc">品牌id</th>
+												<th class="sorting_asc">品牌名称</th>
+
+												<th class="text-center">操作</th>
+											</tr>
+											</thead>
+											<tbody>
+
+											<tr v-for="entity in brandList">
+												<td>{{entity.id}}</td>
+												<td>{{entity.name}}</td>
+
+												<td class="text-center">
+													<button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" @click="addBrand(entity.id,entity.name)">添加</button>
+												</td>
+											</tr>
+
+											</tbody>
+										</table>
+										<!--数据列表/-->
+
+										<!--pages:指定总页数 pageNo：当前页码  searchList:定义的函数 用于在点击下一页的调用-->
+										<navigation :pages="brandPages" :current.sync="brandPageNo"  @navpage="searchBrandList"></navigation>
+
+
+									</div>
+									<!-- 数据表格 /-->
+
+
+
+
+								</div>
+                            </div>
+
+
+							<!--图片上传-->
+							<div class="tab-pane" id="customAttribute">
+								<div class="box-body">
+
+									<!-- 数据表格 -->
+									<div class="table-box">
+
+										<!--数据列表-->
+										<table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+											<thead>
+											<tr>
+
+
+												<th class="sorting">关联规格id</th>
+												<th class="sorting">关联规格名称</th>
+												<th class="text-center">操作</th>
+											</tr>
+											</thead>
+											<tbody>
+
+											<tr v-for="entity in specList" >
+												<td>{{entity.id}}</td>
+												<td>{{entity.specName}}</td>
+
+												<td class="text-center">
+													<button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" @click="addSpec(entity.id,entity.specName)"  >添加</button>
+												</td>
+											</tr>
+
+											</tbody>
+										</table>
+										<!--数据列表/-->
+
+										<!--pages:指定总页数 pageNo：当前页码  searchList:定义的函数 用于在点击下一页的调用-->
+										<navigation :pages="specPages" :current.sync="specPageNo"  @navpage="searchList"></navigation>
+
+
+									</div>
+									<!-- 数据表格 /-->
+
+
+
+
+								</div>
+							</div>
+                           
+
+
+
+
+                            <!--规格-->
+							<div class="tab-pane active" id="spec">
+								<div class="row data-type">
+									<div v-for="cust in entity.customAttributeItems">
+										<div class="col-md-2 title">自定义属性</div>
+										<div class="col-md-10 data">
+											<input type="text" class="form-control" v-model="cust.text"   placeholder="商品名称" value="">
+										</div>
+									</div>
+									<div class="btn-toolbar list-toolbar">
+										<button class="btn btn-primary" @click="saveCust()"><i class="fa fa-save"></i>保存</button>
+									</div>
+									<div class="btn-toolbar list-toolbar">
+										<button class="btn btn-primary" @click="addRow()"><i class="fa fa-save"></i>添加行</button>
+									</div>
+
+								</div>
+							</div>
+                            
+                        </div>
+                        <!--tab内容/-->
+						<!--表单内容/-->
+                    </div>
+
+                 	
+                   </div>
+
+            </section>
+            
+            
+<!-- 上传窗口 -->
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" >
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="myModalLabel">上传商品图片</h3>
+		</div>
+		<div class="modal-body">							
+			
+			<table class="table table-bordered table-striped">
+		      	<tr>
+		      		<td>颜色</td>
+		      		<td><input  class="form-control" placeholder="颜色">  </td>
+		      	</tr>			    
+		      	<tr>
+
+		      		<td>商品图片</td>
+		      		<td>
+						<table>
+							<tr>
+								<td>
+								<input type="file" id="file" />				                
+					                <button class="btn btn-primary" type="button" @click="uploadFile()">
+				                   		上传
+					                </button>	
+					            </td>
+								<td>
+									<img   width="200px" height="200px">
+								</td>
+							</tr>						
+						</table>
+		      		</td>
+		      	</tr>		      	
+			 </table>				
+			
+		</div>
+		<div class="modal-footer">						
+			<button class="btn btn-success" @click="addImageEntity()" data-dismiss="modal" aria-hidden="true">保存</button>
+			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+		</div>
+	  </div>
+	</div>
+</div>
+
+
+
+<!-- 自定义规格窗口 -->
+<div class="modal fade" id="mySpecModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" >
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="myModalLabel">自定义规格</h3>
+		</div>
+		<div class="modal-body">							
+			
+			<table class="table table-bordered table-striped">
+		      	<tr>
+		      		<td>规格名称</td>
+		      		<td><input  class="form-control" placeholder="规格名称" ng-model="spec_entity.text">  </td>
+		      	</tr>			    
+		      	<tr>
+		      		<td>规格选项(用逗号分隔)</td>
+		      		<td>
+						<input  class="form-control" placeholder="规格选项" ng-model="spec_entity.values">
+		      		</td>
+		      	</tr>		      	
+			 </table>				
+			
+		</div>
+		<div class="modal-footer">						
+			<button class="btn btn-success"   data-dismiss="modal" aria-hidden="true">保存</button>
+			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+		</div>
+	  </div>
+	</div>
+</div>
+
+</div>
+
+            
+            <!-- 正文区域 /-->
+<script type="text/javascript">
+
+	var editor;
+	KindEditor.ready(function(K) {
+		editor = K.create('textarea[name="content"]', {
+			allowFileManager : true
+		});
+	});
+
+</script>
+
+<script src="../plugins/vue/vue.js"></script>
+<script src="../js/controller/base.js"></script>
+<script src="../plugins/axios/axios.js"></script>
+<script src="../js/pagination.js"></script>
+<script src="../js/controller/typeTeplateController.js"></script>
+
+
+
+       
+</body>
+
+</html>

@@ -14,4 +14,7 @@
     <dubbo:annotation package="com.pinyougou.sellergoods.service"></dubbo:annotation>
     <!--设置超时时间-->
     <dubbo:provider timeout="1000000"></dubbo:provider>
+
+    <!--交给spring容器-->
+    <bean class="com.pinyougou.sellergoods.service.thread.CreateOrderThread"></bean>
 </beans>
