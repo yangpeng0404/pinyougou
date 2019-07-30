@@ -121,7 +121,7 @@ public class SeckillGoodsController {
                 //简单的业务操作数据库不重写方法
                 seckillGoodsService.updateByPrimaryKeySelective(goods);
             }
-            if("1".equals(status)){
+            /*if("1".equals(status)){
                 //审核完后之后，发送mq消息去生产静态页面
                 MessageInfo messageInfo = new MessageInfo("SECKILL_TOPIC","getHtml_Tags",ids,MessageInfo.METHOD_ADD);
                 String infoStr = JSON.toJSONString(messageInfo);
@@ -131,7 +131,7 @@ public class SeckillGoodsController {
                         messageInfo.getKeys(),infoStr.getBytes()
                         );
                 producer.send(message);
-            }
+            }*/
 
 
             return new Result(true,"成功");

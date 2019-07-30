@@ -1,6 +1,7 @@
 package com.pinyougou.seckill.service.impl;
 import java.util.*;
 
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.pinyougou.common.utils.SysConstants;
 import com.pinyougou.seckill.service.SeckillGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,13 @@
 package com.pinyougou.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
+
 import java.util.Date;
 import javax.persistence.*;
+import javax.xml.crypto.Data;
 
 @Table(name = "tb_order")
 public class TbOrder implements Serializable {
@@ -47,12 +51,14 @@ public class TbOrder implements Serializable {
      * 订单创建时间
      */
     @Column(name = "create_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GTM+8")
     private Date createTime;
 
     /**
      * 订单更新时间
      */
     @Column(name = "update_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GTM+8")
     private Date updateTime;
 
     /**

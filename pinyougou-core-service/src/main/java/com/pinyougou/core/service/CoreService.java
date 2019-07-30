@@ -159,15 +159,5 @@ public interface CoreService<T> {
     int updateByExampleSelective(@Param("record") T record, @Param("example") Object example);
 
 
-
-
-
-
-
-
-
-
-
-
-
 }
+

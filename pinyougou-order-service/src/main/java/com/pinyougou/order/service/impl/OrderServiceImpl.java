@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.pinyougou.common.utils.CookieUtil;
 import com.pinyougou.common.utils.IdWorker;
 import com.pinyougou.mapper.*;
@@ -27,6 +28,7 @@ import tk.mybatis.mapper.entity.Example;
  * 服务实现层
  *
  * @author Administrator
+ *
  */
 @Service
 public class OrderServiceImpl extends CoreServiceImpl<TbOrder> implements OrderService {
@@ -154,7 +156,7 @@ public class OrderServiceImpl extends CoreServiceImpl<TbOrder> implements OrderS
 
     @Override
     public PageInfo<TbOrder> findPage(Integer pageNo, Integer pageSize) {
-        PageHelper.startPage(pageNo, pageSize);
+        PageHelper.startPage(pageNo,pageSize);
         List<TbOrder> all = orderMapper.selectAll();
         PageInfo<TbOrder> info = new PageInfo<TbOrder>(all);
 
@@ -242,8 +244,9 @@ public class OrderServiceImpl extends CoreServiceImpl<TbOrder> implements OrderS
         List<TbOrder> all = orderMapper.selectByExample(example);
         PageInfo<TbOrder> info = new PageInfo<TbOrder>(all);
         //序列化再反序列化
-        String s = JSON.toJSONString(info);
+        String s = JSON.toJSONString(info, SerializerFeature.WriteDateUseDateFormat);
         PageInfo<TbOrder> pageInfo = JSON.parseObject(s, PageInfo.class);
+
 
         return pageInfo;
     }

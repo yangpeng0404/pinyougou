@@ -37,24 +37,24 @@ public class OrderController {
 			return new Result(false,"更新失败");
 		}
 	}
-	
+
 	/**
 	 * 返回全部列表
 	 * @return
 	 */
 	@RequestMapping("/findAll")
-	public List<TbOrder> findAll(){			
+	public List<TbOrder> findAll(){
 		return orderService.findAll();
 	}
-	
-	
-	
+
+
+
 	@RequestMapping("/findPage")
     public PageInfo<TbOrder> findPage(@RequestParam(value = "pageNo", defaultValue = "1", required = true) Integer pageNo,
                                       @RequestParam(value = "pageSize", defaultValue = "10", required = true) Integer pageSize) {
         return orderService.findPage(pageNo, pageSize);
     }
-	
+
 	/**
 	 * 增加
 	 * @param order
@@ -70,7 +70,7 @@ public class OrderController {
 			return new Result(false, "增加失败");
 		}
 	}
-	
+
 	/**
 	 * 修改
 	 * @param order
@@ -85,8 +85,8 @@ public class OrderController {
 			e.printStackTrace();
 			return new Result(false, "修改失败");
 		}
-	}	
-	
+	}
+
 	/**
 	 * 获取实体
 	 * @param id
@@ -94,9 +94,9 @@ public class OrderController {
 	 */
 	@RequestMapping("/findOne/{id}")
 	public TbOrder findOne(@PathVariable(value = "id") Long id){
-		return orderService.findOne(id);		
+		return orderService.findOne(id);
 	}
-	
+
 	/**
 	 * 批量删除
 	 * @param ids
@@ -106,14 +106,14 @@ public class OrderController {
 	public Result delete(@RequestBody Long[] ids){
 		try {
 			orderService.delete(ids);
-			return new Result(true, "删除成功"); 
+			return new Result(true, "删除成功");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new Result(false, "删除失败");
 		}
 	}
-	
-	
+
+
 
 	@RequestMapping("/search")
     public PageInfo<TbOrder> findPage(@RequestParam(value = "pageNo", defaultValue = "1", required = true) Integer pageNo,
@@ -123,5 +123,5 @@ public class OrderController {
 		PageInfo<TbOrder> page = orderService.findPage(pageNo, pageSize, order);
 		return page;
 	}
-	
+
 }
