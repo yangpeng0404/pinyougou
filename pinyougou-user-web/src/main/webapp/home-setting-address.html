@@ -146,7 +146,7 @@
     <script type="text/javascript" src="js/widget/nav.js"></script>
     <script type="text/javascript" src="pages/userInfo/distpicker.data.js"></script>
     <script type="text/javascript" src="pages/userInfo/distpicker.js"></script>
-    <script type="text/javascript" src="pages/userInfo/main.js"></script>
+    <script type="text/javascript" src="js/pages/main.js"></script>
     </body>
     <!--header-->
     <div id="account">
@@ -190,7 +190,7 @@
                 </div>
                 <!--右侧主内容-->
                 <div class="yui3-u-5-6">
-                    {{list}}
+
                     <div class="body userAddress">
                         <div class="address-title">
                             <span class="title">地址管理</span>
@@ -225,7 +225,7 @@
                         <!--新增地址弹出层-->
                         <div tabindex="-1" role="dialog" data-hasfoot="false" class="sui-modal hide fade edit"
                              style="width:580px;">
-                            {{entity}}
+
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -246,17 +246,17 @@
                                                 </div>
                                             </div>
                                             <div class="control-group">
-                                                <label class="control-label">所在地区：</label>
+                                                <label for="inputPassword" class="control-label">所在地：</label>
                                                 <div class="controls">
                                                     <div data-toggle="distpicker">
                                                         <div class="form-group area">
-                                                            <select v-model="entity.provinceId" class="form-control" id="province1"></select>
+                                                            <select class="form-control" id="province1"></select>
                                                         </div>
                                                         <div class="form-group area">
-                                                            <select v-model="entity.cityId" class="form-control" id="city1"></select>
+                                                            <select class="form-control" id="city1"></select>
                                                         </div>
                                                         <div class="form-group area">
-                                                            <select v-model="entity.townId" class="form-control" id="district1"></select>
+                                                            <select class="form-control" id="district1"></select>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -286,9 +286,10 @@
                                                     <input type="text" class="input-medium">
                                                 </div>
                                                 <div class="othername">
-                                                    建议填写常用地址：<a href="#" class="sui-btn btn-default">家里</a>　
-                                                                    <a href="#" class="sui-btn btn-default">父母家</a>　
-                                                                    <a href="#" class="sui-btn btn-default">公司</a>
+                                                    建议填写常用地址：
+                                                    <a href="#" class="sui-btn btn-default"  >家里</a>　
+                                                    <a href="#" class="sui-btn btn-default"  >父母家</a>　
+                                                    <a href="#" class="sui-btn btn-default"  >公司</a>
 
                                                 </div>
                                             </div>

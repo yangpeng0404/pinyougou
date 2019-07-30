@@ -320,6 +320,8 @@ public class OrderServiceImpl extends CoreServiceImpl<TbOrder> implements OrderS
                 //订单状态
                 userOrder1.setStatus(tbOrder.getStatus());
 
+                userOrder1.setPayment(tbOrder.getPayment());
+
                 //商品订单信息
                 TbOrderItem whereOrderItem = new TbOrderItem();
                 whereOrderItem.setOrderId(tbOrder.getOrderId());

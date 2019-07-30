@@ -21,11 +21,11 @@ public class PageController {
 
     @RequestMapping("/footmark")
     public void footmark(@RequestParam String URL){
-        System.out.println("itemPageService===:"+itemPageService);
+
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
         String goodsIdstr = URL.split("9105/")[1].split("\\.")[0];
-        System.out.println("str"+goodsIdstr);
+
         Long goodId = new Long(goodsIdstr);
 
             //如果长度为0,添加
@@ -33,7 +33,7 @@ public class PageController {
                 goodsIds.add(goodId);
             }else {
                 if (goodsIds.contains(goodId)){
-                    System.out.println("id已经在集合中,删除再添加在第一个位置");
+
 
                     //清除集合中数据
                     goodsIds.remove(goodId);

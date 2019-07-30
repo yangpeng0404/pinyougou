@@ -231,9 +231,10 @@
                                     <table class="sui-table table-bordered order-datatable" >
 
                                         <tbody>
-                                        <tr v-for="orderlist in list.orderItemList">
+                                        <tr v-for="(orderlist,index) in list.orderItemList">
                                             <td width="35%">
-                                                <div class="typographic"><img src="{{orderlist.picPath}}"/>
+                                                <!--{{orderlist.picPath}}-->
+                                                <div class="typographic"><img src="img/goods.png"/>
                                                     <a href="#" class="block-text">包邮 正品 {{list.goodsName}} 新款</a>
                                                     <span class="guige">规格：{{orderlist.title}}</span>
                                                 </div>
@@ -246,19 +247,20 @@
                                             </td>
                                             <td width="5%" class="center">{{orderlist.num}}</td>
                                             <td width="8%" class="center"></td>
-                                            <td width="10%" class="center" >
+                                            <td width="10%" class="center" v-if="index==0" :rowspan="list.orderItemList.length">
                                                 <ul class="unstyled">
-                                                    <li>¥{{orderlist.totalFee}}</li>
+                                                    <li>¥{{list.payment}}</li>
                                                     <li>（含运费：￥0.00）</li>
                                                 </ul>
                                             </td>
-                                            <td width="10%" class="center" >
+                                            <td width="10%" class="center"  v-if="index==0" :rowspan="list.orderItemList.length">
                                                 <ul class="unstyled">
                                                     <li>等待买家付款</li>
                                                     <li><a href="orderDetail.html" class="btn">订单详情 </a></li>
                                                 </ul>
                                             </td>
-                                            <td width="10%" class="center"  >
+                                            <!--:rowspan="list.orderItemList.length"-->
+                                            <td width="10%" class="center"  v-if="index==0" :rowspan="list.orderItemList.length" >
                                                 <ul class="unstyled">
                                                     <li><a href="#" @click="addpayLog(orderlist.orderId)" class="sui-btn btn-info">立即付款</a></li>
                                                     <li><a href="#">取消订单</a></li>

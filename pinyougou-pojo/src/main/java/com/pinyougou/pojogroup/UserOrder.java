@@ -3,6 +3,7 @@ package com.pinyougou.pojogroup;
 import com.pinyougou.pojo.TbOrderItem;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +22,15 @@ public class UserOrder implements Serializable {
     private String goodsName; //商品名
     private String sellerId;//店铺
     private Long orderId;//订单号
+    private BigDecimal payment;//订单金额
+
+    public BigDecimal getPayment() {
+        return payment;
+    }
+
+    public void setPayment(BigDecimal payment) {
+        this.payment = payment;
+    }
 
     public String getSellerId() {
         return sellerId;
@@ -78,7 +88,8 @@ public class UserOrder implements Serializable {
                 ", orderItemList=" + orderItemList +
                 ", goodsName='" + goodsName + '\'' +
                 ", sellerId='" + sellerId + '\'' +
-                ", orderId='" + orderId + '\'' +
+                ", orderId=" + orderId +
+                ", payment=" + payment +
                 '}';
     }
 }

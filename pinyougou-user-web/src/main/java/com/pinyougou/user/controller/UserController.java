@@ -1,10 +1,20 @@
 package com.pinyougou.user.controller;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.alibaba.fastjson.JSON;
+import com.pinyougou.car.service.CartService;
+import com.pinyougou.common.utils.CookieUtil;
 import com.pinyougou.common.utils.PhoneFormatCheckUtils;
+import com.pinyougou.order.service.OrderService;
+import com.pinyougou.pojo.Cart;
+import com.pinyougou.pojo.TbOrder;
+import com.pinyougou.pojogroup.UserOrder;
 import com.pinyougou.user.service.UserService;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 
 import org.springframework.validation.FieldError;
@@ -15,6 +25,10 @@ import com.pinyougou.pojo.TbUser;
 import com.github.pagehelper.PageInfo;
 import entity.Result;
 import entity.Error;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * controller
  * @author Administrator
@@ -34,9 +48,6 @@ public class UserController {
 	private CartService cartService;
 
 
-
-	@Reference
-	private CartService cartService;
 	/**
 	 * 返回全部列表
 	 * @return
@@ -223,71 +234,34 @@ public class UserController {
 
 
 
-	@RequestMapping("/addToMyList")
-	@CrossOrigin(origins="http://localhost:9107",allowCredentials="true")//注解方式
-	public Result addToMyList(Long itemId, Integer num, HttpServletRequest request, HttpServletResponse response) {
+	//我的收藏添加购物车
+	@RequestMapping("/addGoodsToCartList")
+	public Result addGoodsToCartList(Long itemId,Integer num){
 		try {
-			//find方法主要是做获取，add要做添加，也要判断是否登录
-			String name = SecurityContextHolder.getContext().getAuthentication().getName();
-			if ("anonymousUser".equals(name)) {
-				//为登录
-				List<Cart> cartList = findCartList(request,response);//获取购物车列表
-				cartList = cartService.addGoodsToCartList(cartList, itemId, num);
-				CookieUtil.setCookie(request, response, "cartList", JSON.toJSONString(cartList), 3600 * 24, "UTF-8");
-			} else {
-				//以登录
-				List<Cart> cartList = findCartList(request,response);//获取购物车列表
-				cartList = cartService.addGoodsToCartList(cartList,itemId,num);
-				cartService.saveCartListToRedis(name,cartList);
+
+			String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+			List<Cart> cartList=new ArrayList<>();
+
+			cartList = cartService.addGoodsToCartList(cartList, itemId, num);
+			//未登录
+			if("anonymousUser".equals(username)) {
+
+				//保存购物列表
+				String jsonString = JSON.toJSONString(cartList);
+
+			}else {
+
+				cartService.saveCartListToRedis(username, cartList);
 			}
-			return new Result(true, "添加成功");
-		} catch (Exception e) {
+			return new Result(true, "添加成功!");
+		}catch (RuntimeException e){
+			//提示用户详细的信息
+			return new Result(false, e.getMessage());
+		}catch (Exception e) {
 			e.printStackTrace();
-			return new Result(false, "添加失败");
 		}
+		return new Result(false, "添加失败!");
 	}
 
-	@RequestMapping("/findCartList")
-	public List<Cart> findCartList(HttpServletRequest request,HttpServletResponse response) {
-
-		//考虑是否登录
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-
-		if ("anonymousUser".equals(username)) {
-			//说明是匿名登录，就是未登录
-			String cartListString = CookieUtil.getCookieValue(request, "cartList", "UTF-8");
-			//如果cookie中没有的话，就给他一个空，但是不能为null
-			if (StringUtils.isEmpty(cartListString)) {
-				cartListString = "[]";
-			}
-			List<Cart> cookieCartList = JSON.parseArray(cartListString, Cart.class);
-			return cookieCartList;
-
-		} else {
-			//是登录状态
-			//操作redis
-			List<Cart> cartListFromRedis = cartService.findCartListFromRedis(username);
-			if (cartListFromRedis == null) {
-				cartListFromRedis=new ArrayList<Cart>();
-			}
-			//如果走到这里，那么代表是登录了，不管是第几次登陆，这个时候就要合并
-			//获取cookCar
-			String cookieValue = CookieUtil.getCookieValue(request, "cartList","UTF-8");
-			if(StringUtils.isEmpty(cookieValue)){
-				cookieValue="[]";
-			}
-			List<Cart> cookieCarList = JSON.parseArray(cookieValue, Cart.class);
-			//何必购物车
-			List<Cart> cartListConmm = cartService.commMarge(cookieCarList,cartListFromRedis);
-			//将新的car存入redis
-			cartService.saveCartListToRedis(username,cartListConmm);
-			//清除 cookie中的car
-			CookieUtil.deleteCookie(request,response,"cartList");
-			if (cartListConmm==null){
-				cartListConmm= new ArrayList<Cart>();
-			}
-			//返回最新的car
-			return cartListConmm;
-		}
-	}
 }

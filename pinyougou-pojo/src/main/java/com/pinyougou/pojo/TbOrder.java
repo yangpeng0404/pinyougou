@@ -15,7 +15,7 @@ public class TbOrder implements Serializable {
      */
     @Id
     @Column(name = "order_id")
-    private String orderId;
+    private Long orderId;
 
     /**
      * 实付金额。精确到2位小数;单位:元。如:200.07，表示:200元7分
@@ -170,7 +170,7 @@ public class TbOrder implements Serializable {
      *
      * @return order_id - 订单id
      */
-    public String getOrderId() {
+    public Long getOrderId() {
         return orderId;
     }
 
@@ -179,7 +179,7 @@ public class TbOrder implements Serializable {
      *
      * @param orderId 订单id
      */
-    public void setOrderId(String orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
 

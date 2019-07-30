@@ -11,13 +11,13 @@
         smsCode:'',
         cartList: [],
         totalMoney:0,//总金额
-        totalNum:0 //总数量
-        smsCode:'',
+        totalNum:0, //总数量
         orderList:[],//订单
         orderEntity:{status:''},
         status:'',//订单状态
         user:[],//用户信息
         myfootmark:[],//我的足迹
+
     },
     methods: {
 
@@ -31,16 +31,14 @@
             })
         },
 
-        addGoodsToCartList:function () {
-            //跨域请求,发一个添加一个商品的请求，参数是skuid和num
-            //但是设计到跨越请求，携带参数以及cookie要在目标系统配置允许
-            axios.get('http://localhost:9107/cart/addGoodsToCartList.shtml',
+        addGoodsToCartList:function (id) {
+            axios.get('addGoodsToCartList.shtml',
                 {
                     params: {
-                        itemId: this.sku.id,
-                        num: this.num
+                        itemId: id,
+                        num: 1
                     },
-                    withCredentials:true//携带cookie
+                    // withCredentials:true//携带cookie
                 }
             ).then(function (response) {
                 if (response.data.success) {
@@ -175,7 +173,8 @@
 
 
         update:function () {
-            axios.post('/user/update.shtml',this.entity).then(function (response) {
+            axios.post('/user/update.shtml',this.user).then(function (response) {
+
                 console.log(response);
                 if(response.data.success){
                     app.searchList(1);
@@ -228,9 +227,10 @@
             });
         }
     },
+
     //钩子函数 初始化了事件和
     created: function () {
-        this.findCartList();
+       this.findCartList();
         //页面加载获取用户名
         this.getName();
         this.findUserByUsername();
@@ -254,6 +254,6 @@
             this.findOrderList();
         }
 
-    }
+    },
 
 })
