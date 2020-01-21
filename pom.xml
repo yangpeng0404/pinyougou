@@ -54,7 +54,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <junit.version>4.12</junit.version>
         <joda-time.version>2.9.9</joda-time.version>
-        <spring.version>5.0.2.RELEASE</spring.version>
+        <spring.version>5.2.3.RELEASE</spring.version>
         <pagehelper.version>4.0.0</pagehelper.version>
         <servlet-api.version>2.5</servlet-api.version>
         <dubbo.version>2.6.1</dubbo.version>
